@@ -1,0 +1,187 @@
+@import "../../styles/abstracts/mixins";
+
+.project {
+	.info {
+		pointer-events: none;
+		position: fixed;
+		display: none;
+		z-index: 2;
+		left: max(var(--sidebearing), var(--gutter));
+		right: max(var(--sidebearing), var(--gutter));
+		max-width: calc(var(--container__width) / 2);
+		top: 25vh;
+		flex-direction: column;
+		.categories {
+			order: 1;
+			position: absolute;
+			top: calc(-1em - 0.5rem);
+		}
+		.title {
+			order: 2;
+			color: var(--colour__accent);
+			text-transform: uppercase;
+			display: inline;
+			span {
+				border-bottom: 2px solid;
+			}
+			em {
+				font-style: italic;
+			}
+		}
+	}
+	&:hover {
+		.info {
+			display: flex;
+		}
+	}
+}
+
+.list {
+	margin: 120px 0;
+}
+
+.listItem {
+	color: var(--colour__accent);
+	border-bottom: 1px solid;
+
+	.details {
+		grid-column: grid-start / grid-end;
+		height: 0;
+		// transition: 0.6s var(--easing);
+		overflow: hidden;
+		.image {
+			padding: calc(var(--gutter) / 2) 0;
+			grid-column: grid-start / grid-end;
+			@include desktop {
+				grid-column-end: span 4;
+			}
+		}
+		.info {
+			grid-column: grid-start / grid-end;
+			padding: calc(var(--gutter) / 2) 0;
+			@include desktop {
+				grid-column: col-6 / span 5;
+			}
+		}
+	}
+
+	// &:not(.open) {
+	// 	@include on-event {
+	// 		.details {
+	// 			height: 1.75rem !important;
+	// 		}
+	// 	}
+	// }
+
+	.columns {
+		user-select: none;
+		cursor: hand;
+		cursor: pointer;
+		grid-column: grid-start / grid-end;
+
+		padding: 0.75rem 0;
+
+		.column {
+			&[data-col="category"],
+			&[data-col="client"],
+			&[data-col="agency"] {
+				grid-column: grid-start / col-10;
+				@include desktop {
+					grid-row: auto;
+					grid-column: span 2;
+				}
+			}
+			&[data-col="category"] {
+				grid-row: 1;
+				@include desktop {
+					grid-row: auto;
+				}
+			}
+			&[data-col="agency"] {
+				display: none;
+				@include desktop {
+					display: block;
+				}
+			}
+			&[data-col="project"] {
+				grid-row: 2;
+				grid-column: grid-start / col-10;
+				@include desktop {
+					grid-row: auto;
+					grid-column: span 4;
+				}
+			}
+			&[data-col="more"] {
+				grid-row: 2;
+				grid-column: col-10 / grid-end;
+				@include desktop {
+					grid-row: auto;
+					grid-column: auto;
+					justify-self: end;
+				}
+			}
+			&[data-col="year"] {
+				grid-row: 1;
+				grid-column: col-10 / grid-end;
+				@include desktop {
+					grid-row: auto;
+					grid-column: auto;
+				}
+			}
+		}
+	}
+
+	&.listHeader {
+		.columns {
+			.column {
+				grid-row: 1;
+				@include desktop {
+					grid-row: auto;
+				}
+				&[data-col="category"],
+				&[data-col="client"],
+				&[data-col="agency"] {
+					display: none;
+					@include desktop {
+						display: block;
+					}
+				}
+			}
+			.column:not(:empty) {
+				position: relative;
+				@include on-event {
+					&:before {
+						content: "";
+						position: absolute;
+						height: 100%;
+						width: calc(100% + var(--gutter));
+						left: calc(var(--gutter) / -2);
+						top: 0;
+						background: var(--colour__accent);
+						opacity: 0.03;
+					}
+				}
+			}
+		}
+	}
+
+	.view {
+		display: inline-block;
+		margin-top: 1rem;
+		text-decoration: none;
+		border-bottom: 1px solid;
+	}
+}
+
+.categories {
+	display: flex;
+	li {
+		display: inline-block;
+		margin-right: 0.5em;
+		&:not(:last-child) {
+			&:after {
+				content: ",";
+			}
+		}
+	}
+}

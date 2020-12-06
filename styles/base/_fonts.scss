@@ -1,0 +1,15 @@
+// -----------------------------------------------------------------------------
+// This file contains all @font-face declarations, if any.
+// -----------------------------------------------------------------------------
+@font-face { 
+    font-family: 'antwerp'; 
+    src: url('/fonts/Antwerp-Light.woff') format('woff');
+    font-weight: normal; font-style: normal;
+    font-display: swap;
+}
+@font-face { 
+    font-family: 'antwerp'; 
+    src: url('/fonts/Antwerp-LightItalic.woff') format('woff');
+    font-weight: normal; font-style: italic;
+    font-display: swap;
+}

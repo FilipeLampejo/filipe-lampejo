@@ -1,0 +1,17 @@
+{
+	"title": "Filipe Lampejo",
+	"desc": "Hi I'm Felipe",
+	"menu": {
+		"about": "About",
+		"contact": "Contact",
+		"projects": "Projects"
+	},
+	"locales": {
+		"pt-BR": "PT",
+		"en": "EN"
+	},
+	"footer": {
+		"credits": "design + code:",
+		"author": "Penumbra"
+	}
+}

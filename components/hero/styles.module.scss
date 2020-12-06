@@ -1,0 +1,23 @@
+@import "breakpoint-sass", "../../styles/abstracts/variables";
+
+.hero {
+	top: 25vh;
+	position: fixed;
+	visibility: visible;
+
+	&.invisible {
+		visibility: hidden;
+		pointer-events: none;
+	}
+}
+
+.title {
+	grid-column: grid-start / span 6;
+}
+
+.bio {
+	grid-column: grid-start / col-10;
+	@include breakpoint($tablet-l) {
+		grid-column: grid-start / span 4;
+	}
+}

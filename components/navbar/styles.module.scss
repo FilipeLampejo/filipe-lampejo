@@ -1,0 +1,86 @@
+@import "../../styles/abstracts/mixins";
+
+.navbar {
+	pointer-events: none;
+	position: fixed;
+	width: 100%;
+	top: 0px;
+	height: calc(100vh - 128px);
+	@include desktop {
+		height: auto;
+	}
+	z-index: 100;
+}
+
+.menu {
+	user-select: none;
+
+	margin: 0 -0.618em;
+	grid-column: grid-start / grid-end;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+	.item {
+		pointer-events: all;
+		width: 50%;
+		@include desktop {
+			width: initial;
+		}
+		padding: 0.618em;
+
+		&:nth-child(1) {
+			align-self: flex-start;
+			order: 1;
+		}
+		&:nth-child(2) {
+			order: 4;
+			align-self: flex-end;
+			@include desktop {
+				order: 2;
+			}
+		}
+		&:nth-child(3) {
+			order: 2;
+			align-self: flex-start;
+			text-align: right;
+			@include desktop {
+				text-align: initial;
+				order: 4;
+			}
+		}
+		&:nth-child(4) {
+			align-self: flex-end;
+			order: 5;
+		}
+	}
+
+	.logo {
+		pointer-events: auto;
+		order: 3;
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%);
+		padding: 0.618em;
+		@include desktop {
+			position: static;
+			left: initial;
+			transform: none;
+		}
+	}
+}
+
+.hidden {
+	visibility: hidden;
+	pointer-events: none;
+}
+
+.langPicker {
+	display: flex;
+	justify-content: flex-end;
+	.locale {
+		&:not(:last-child) {
+			margin-right: 0.5em;
+		}
+	}
+}

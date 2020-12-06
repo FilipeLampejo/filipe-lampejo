@@ -1,0 +1,11 @@
+$phone: max-width 37.5em;
+$tablet-p: min-width 37.5625em;
+$tablet-p-or-less: max-width 56.22em;
+$tablet-l: min-width 56.25em;
+$desktop: min-width 75em;
+
+/// Relative or absolute URL where all assets are served from
+/// @type String
+/// @example scss - When using a CDN
+///   $base-url: 'http://cdn.example.com/assets/';
+$base-url: '/assets/' !default;

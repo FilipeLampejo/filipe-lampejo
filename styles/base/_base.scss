@@ -1,0 +1,75 @@
+// -----------------------------------------------------------------------------
+// This file contains very basic styles.
+// -----------------------------------------------------------------------------
+
+/**
+ * Set up a decent box model on the root element
+ */
+html {
+	box-sizing: border-box;
+	background: var(--colour__bg);
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	color: var(--colour__main);
+	font: normal 100% / 1.575 "antwerp", Georgia, serif;
+	-webkit-font-smoothing: antialiased;
+}
+
+em {
+	font-style: normal;
+	font-weight: 500;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+	margin: 0;
+	font-weight: normal;
+}
+
+/**
+ * Make all elements from the DOM inherit from the parent box-sizing
+ * Since `*` has a specificity of 0, it does not override the `html` value
+ * making all elements inheriting from the root box-sizing value
+ * See: https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
+ */
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
+/**
+ * Basic styles for links
+ */
+a {
+	color: inherit;
+	text-decoration: none;
+
+	@include on-event {
+		color: var(--colour__main);
+		text-decoration: underline;
+	}
+}
+
+figure {
+	margin: 0;
+}
+
+ul,
+ol,
+dd,
+dt {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
