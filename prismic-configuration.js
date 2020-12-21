@@ -2,8 +2,10 @@ module.exports = {
 	// -- Prismic API endpoint
 	// Determines which repository to query and fetch data from
 	// Configure your site's access point here
-	apiEndpoint: process.env.NEXT_PUBLIC_PRISMIC_API_ENDPOINT,
-	accessToken: process.env.NEXT_PUBLIC_PRISMIC_ACCESS_TOKEN,
+	apiEndpoint: "https://filipe-lampejo.cdn.prismic.io/api/v2",
+	// process.env.NEXT_PUBLIC_PRISMIC_API_ENDPOINT,
+	accessToken: "",
+	// process.env.NEXT_PUBLIC_PRISMIC_ACCESS_TOKEN
 
 	// -- Link resolution rules
 	// Manages links to internal Prismic documents
