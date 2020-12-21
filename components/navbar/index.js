@@ -29,7 +29,7 @@ const LangPicker = () => {
 	);
 };
 
-export default function Navbar({ home }) {
+export default function Navbar() {
 	const { asPath } = useRouter();
 	let { t } = useTranslation();
 	const menuItems = {
@@ -39,7 +39,7 @@ export default function Navbar({ home }) {
 	};
 
 	return (
-		<aside className={`${styles.navbar} ${grid.col}`}>
+		<aside tabindex="0" className={`${styles.navbar} ${grid.col}`}>
 			<ul className={`${styles.menu}`}>
 				{Object.entries(menuItems).map(([key, value]) => {
 					const href = `/${key}`;
@@ -56,7 +56,7 @@ export default function Navbar({ home }) {
 				</li>
 				<li
 					key="logo"
-					className={`${styles.logo} ${home ? styles.hidden : ""}`}
+					className={`${styles.logo} ${asPath === "/" ? styles.hidden : ""}`}
 				>
 					<Link href="/">
 						<a>{t("common:title")}</a>

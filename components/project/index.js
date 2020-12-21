@@ -1,6 +1,8 @@
+import { RichText } from "prismic-reactjs";
+
 import styles from "./styles.module.scss";
 import typography from "../../styles/typography.module.scss";
-import grid from "../..//styles/grid.module.scss";
+import grid from "../../styles/grid.module.scss";
 
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -17,7 +19,7 @@ const columns = {
 	year: (project) => project.date,
 	category: (project) => project.categories,
 	client: (project) => project.client,
-	project: (project) => project.title,
+	project: (project) => project.titulo,
 	agency: (project) => project.agency,
 };
 
@@ -25,13 +27,7 @@ function ProjectListItem({ project, open, onClick }) {
 	let { t } = useTranslation();
 	let details = useRef();
 	const [height, setHeight] = useState(0);
-	const props = useSpring({ height: height });
-
-	let router = useRouter();
-	const dt = (obj) => {
-		if (!obj) return false;
-		return obj[router.locale] || obj[router.defaultLocale];
-	};
+	const springProps = useSpring({ height: height });
 
 	useEffect(() => {
 		if (details.current) {
@@ -40,26 +36,15 @@ function ProjectListItem({ project, open, onClick }) {
 			const finalPos = details.current.getBoundingClientRect().height;
 			details.current.style.height = initialPos;
 			setHeight(finalPos);
-			// console.log(initialPos, finalPos);
-			// details.current.animate(
-			// 	[
-			// 		{ height: `${parseInt(initialPos)}px` },
-			// 		{ height: `${parseInt(finalPos)}px` },
-			// 	],
-			// 	{
-			// 		duration: 600,
-			// 		easing: "cubic-bezier(0.16, 1, 0.3, 1)",
-			// 	}
-			// );
 		}
-	}, [open]);
+	}, [open, height]);
 
 	const displayColumns = {
 		year: (text) => <Year dateString={text} />,
 		category: (categories) => (
 			<ul className={`${styles.categories} ${typography.smcp}`}>
 				{categories.map((cat) => (
-					<li key={cat.sys.id}>{dt(cat.fields.title)}</li>
+					<li key={cat.category.slug}>{cat.category.slug}</li>
 				))}
 			</ul>
 		),
@@ -68,15 +53,6 @@ function ProjectListItem({ project, open, onClick }) {
 		agency: (text) => text || "—",
 	};
 
-	let thumbProps;
-	if (project.cover) {
-		const fileInfo = dt(dt(project.cover).fields.file);
-		thumbProps = {
-			src: fileInfo.url,
-			ratio: fileInfo.details.image.width / fileInfo.details.image.height,
-		};
-	}
-
 	return (
 		<li
 			className={`${grid.col} ${styles.listItem} ${styles.listProject} ${
@@ -84,13 +60,13 @@ function ProjectListItem({ project, open, onClick }) {
 			}`}
 		>
 			<header
-				onClick={() => onClick(dt(project.slug))}
+				onClick={() => onClick(project.slug)}
 				className={`${styles.columns} ${grid.inner}`}
 			>
 				{Object.entries(columns).map(([key, value]) => (
 					<div className={styles.column} data-col={key} key={key}>
 						<dt className="visually-hidden">{t(`project:${key}`)}</dt>
-						<dd>{displayColumns[key](dt(value(project)))}</dd>
+						<dd>{displayColumns[key](value(project))}</dd>
 					</div>
 				))}
 				<div className={styles.column} data-col="more" key="more">
@@ -100,19 +76,24 @@ function ProjectListItem({ project, open, onClick }) {
 			<a.div
 				ref={details}
 				className={`${styles.details} ${grid.inner}`}
-				style={props}
+				style={springProps}
 			>
 				<div className={styles.image}>
-					<Image
-						width={1200}
-						height={1200 / thumbProps.ratio}
-						layout="responsive"
-						src={`https:${thumbProps.src}`}
-					/>
+					{project.capa && (
+						<Image
+							width={1200}
+							height={
+								1200 /
+								(project.capa.dimensions.width / project.capa.dimensions.height)
+							}
+							layout="responsive"
+							src={project.capa.url}
+						/>
+					)}
 				</div>
 				<div className={styles.info}>
-					{documentToReactComponents(dt(project.sobre))}
-					<Link href={`/projetos/${dt(project.slug)}`}>
+					{RichText.asText(project.sobre)}
+					<Link href={`/projetos/${project.slug}`}>
 						<a className={`${styles.view} ${typography.smcp}`}>
 							{t("project:view")}
 						</a>
@@ -123,18 +104,11 @@ function ProjectListItem({ project, open, onClick }) {
 	);
 }
 
-export function ProjectList({ projects }) {
+export function ProjectList({ projects, locale }) {
 	let { t } = useTranslation();
 	const [orderBy, setOrderBy] = useState("year");
 	const [orderAsc, setOrderAsc] = useState(false);
 	const [open, setOpen] = useState();
-	const [projectList, setProjectList] = useState(projects);
-	let router = useRouter();
-
-	const dt = (obj) => {
-		if (!obj) return false;
-		return obj[router.locale] || obj[router.defaultLocale];
-	};
 
 	const toggleOpen = (slug) => {
 		open === slug ? setOpen(null) : setOpen(slug);
@@ -155,9 +129,10 @@ export function ProjectList({ projects }) {
 				key="header"
 				className={`${styles.listItem} ${styles.listHeader} ${grid.col}`}
 			>
-				<div className={`${styles.columns} ${grid.inner}`}>
+				<ul className={`${styles.columns} ${grid.inner}`}>
 					{Object.keys(columns).map((col) => (
-						<div
+						<li
+							key={col}
 							data-col={col}
 							className={styles.column}
 							onClick={() => reorderTable(col)}
@@ -165,15 +140,21 @@ export function ProjectList({ projects }) {
 						>
 							{t(`project:${col}`)}{" "}
 							{orderBy == col ? (orderAsc ? "↓" : "↑") : ""}
-						</div>
+						</li>
 					))}
-					<div className={styles.column} data-col="more" key="more"></div>
-				</div>
+					<li
+						key={"more"}
+						className={styles.column}
+						data-col="more"
+						key="more"
+					></li>
+				</ul>
 			</li>
-			{projectList
+			{projects
+				.filter((project) => project.lang.toLowerCase() == locale.toLowerCase())
 				.sort((a, b) => {
 					if (columns[orderBy]) {
-						return dt(columns[orderBy](a)) > dt(columns[orderBy](b))
+						return columns[orderBy](a) > columns[orderBy](b)
 							? orderAsc
 								? 1
 								: -1
@@ -185,9 +166,9 @@ export function ProjectList({ projects }) {
 				})
 				.map((project) => (
 					<ProjectListItem
-						key={project.slug[0]}
+						key={project.slug + project.lang}
 						project={project}
-						open={open == dt(project.slug)}
+						open={open === project.slug}
 						onClick={toggleOpen}
 					/>
 				))}
@@ -196,24 +177,8 @@ export function ProjectList({ projects }) {
 }
 
 export default function ProjectThumb({ project, onHover }) {
-	let thumbProps;
-
-	let router = useRouter();
-	const dt = (obj) => {
-		if (!obj) return false;
-		return obj[router.locale] || obj[router.defaultLocale];
-	};
-
-	if (project.cover) {
-		const fileInfo = dt(dt(project.cover).fields.file);
-		thumbProps = {
-			src: fileInfo.url,
-			ratio: fileInfo.details.image.width / fileInfo.details.image.height,
-		};
-	}
-
 	return (
-		<Link href={`/projetos/${dt(project.slug)}`}>
+		<Link href={`/projetos/${project.slug}`}>
 			<a
 				className={styles.project}
 				onMouseEnter={() => onHover(true)}
@@ -221,22 +186,26 @@ export default function ProjectThumb({ project, onHover }) {
 			>
 				<div className={`${styles.info}`}>
 					<h2 className={`${styles.title} ${typography.headingOne}`}>
-						<span>{documentToReactComponents(dt(project.displayTitle))}</span>
+						<RichText render={project.displaytitle} />
 					</h2>
 					<ul className={`${styles.categories} ${typography.smcp}`}>
-						{dt(project.categories).map((cat) => (
-							<li key={cat.sys.id}>{dt(cat.fields.title)}</li>
+						{project.categories.map((cat) => (
+							<li key={cat.category.slug}>{cat.category.slug}</li>
 						))}
 					</ul>
 				</div>
 
-				{thumbProps && (
+				{project.capa && (
 					<div className={styles.thumb}>
 						<Image
 							width={1200}
-							height={1200 / thumbProps.ratio}
+							height={
+								1200 /
+								(project.capa.dimensions.width / project.capa.dimensions.height)
+							}
 							layout="responsive"
-							src={`https:${thumbProps.src}`}
+							src={project.capa.url}
+							alt={project.capa.alt}
 						/>
 					</div>
 				)}

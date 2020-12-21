@@ -1,0 +1,40 @@
+.container {
+	& > * {
+		margin: 2rem 0;
+	}
+}
+
+.slice {
+	grid-column: grid-start / grid-end;
+	&Md {
+		grid-column: col-3 / col-9;
+	}
+	&Sm {
+		grid-column: col-10 / grid-end;
+	}
+	&Lg {
+		grid-column: screen-start / screen-end;
+	}
+}
+
+.size {
+	&--grande {
+		grid-column: screen-start / screen-end;
+	}
+	&--medio {
+		grid-column: grid-start / grid-end;
+	}
+	&--pequeno {
+		&.align {
+			&--esquerda {
+				grid-column: grid-start / span 6;
+			}
+			&--direita {
+				grid-column: span 6 / grid-end;
+			}
+			&--centro {
+				grid-column: col-4 / col-10;
+			}
+		}
+	}
+}
