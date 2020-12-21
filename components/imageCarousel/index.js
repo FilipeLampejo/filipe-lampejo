@@ -2,7 +2,7 @@ import styles from "./styles.module.scss";
 import { useState } from "react";
 import Image from "next/image";
 import grid from "../../styles/grid.module.scss";
-
+import Placeholder from "../placeholder";
 export default function ImageCarousel({ images }) {
 	const [slide, setSlide] = useState(0);
 	const maxSlides = images.length;
@@ -22,13 +22,16 @@ export default function ImageCarousel({ images }) {
 		<figure className={`${styles.container} ${grid.col}`}>
 			{gallery.map((i) => (
 				<div className={styles.image}>
-					<Image
-						onClick={() => handleClick(images.indexOf(i))}
-						src={i.imagem.url}
-						width={i.imagem.dimensions.width}
-						height={i.imagem.dimensions.height}
-						alt={i.imagem.alt}
-					/>
+					<Placeholder>
+						<Image
+							onClick={() => handleClick(images.indexOf(i))}
+							src={i.imagem.url}
+							width={i.imagem.dimensions.width}
+							height={i.imagem.dimensions.height}
+							alt={i.imagem.alt}
+							layout="responsive"
+						/>
+					</Placeholder>
 				</div>
 			))}
 			<figcaption className={styles.counter}>

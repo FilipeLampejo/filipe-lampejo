@@ -39,7 +39,7 @@ export default function Navbar() {
 	};
 
 	return (
-		<aside tabindex="0" className={`${styles.navbar} ${grid.col}`}>
+		<aside className={`${styles.navbar} ${grid.col}`}>
 			<ul className={`${styles.menu}`}>
 				{Object.entries(menuItems).map(([key, value]) => {
 					const href = `/${key}`;

@@ -1,15 +1,15 @@
 import grid from "../../styles/grid.module.scss";
 import styles from "../../styles/pages/project.module.scss";
 
-import { Client } from "../../lib/prismic";
+import { Client } from "../lib/prismic";
 import Prismic from "prismic-javascript";
 
 import { RichText } from "prismic-reactjs";
 import typography from "../../styles/typography.module.scss";
 
-import Meta from "../../components/meta";
+import Meta from "../components/meta";
 import { useRouter } from "next/router";
-import SliceMachine from "../../components/sliceMachine";
+import SliceMachine from "../components/sliceMachine";
 
 export default function Project({ postData }) {
 	let router = useRouter();

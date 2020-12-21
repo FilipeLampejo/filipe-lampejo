@@ -31,7 +31,7 @@ export default function Home({ projects }) {
 						(project) => project.lang.toLowerCase() == locale.toLowerCase()
 					)
 					.map((project) => (
-						<div key={project.title} className={styles.project}>
+						<div key={project.slug} className={styles.project}>
 							<ProjectThumb
 								onHover={(newState) => setHeroInvisible(newState)}
 								project={project}

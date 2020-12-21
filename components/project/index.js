@@ -7,6 +7,7 @@ import grid from "../../styles/grid.module.scss";
 import Link from "next/link";
 
 import { useSpring, animated as a } from "react-spring";
+import Placeholder from "../placeholder";
 import Image from "next/image";
 
 import Year from "../date";
@@ -77,16 +78,19 @@ function ProjectListItem({ project, open, onClick }) {
 				style={springProps}
 			>
 				<div className={styles.image}>
-					{project.capa && (
-						<Image
-							width={1200}
-							height={
-								1200 /
-								(project.capa.dimensions.width / project.capa.dimensions.height)
-							}
-							layout="responsive"
-							src={project.capa.url}
-						/>
+					{project.capa.url && (
+						<Placeholder>
+							<Image
+								width={1200}
+								height={
+									1200 /
+									(project.capa.dimensions.width /
+										project.capa.dimensions.height)
+								}
+								layout="responsive"
+								src={project.capa.url}
+							/>
+						</Placeholder>
 					)}
 				</div>
 				<div className={styles.info}>
@@ -193,18 +197,21 @@ export default function ProjectThumb({ project, onHover }) {
 					</ul>
 				</div>
 
-				{project.capa && (
+				{project.capa.url && (
 					<div className={styles.thumb}>
-						<Image
-							width={1200}
-							height={
-								1200 /
-								(project.capa.dimensions.width / project.capa.dimensions.height)
-							}
-							layout="responsive"
-							src={project.capa.url}
-							alt={project.capa.alt}
-						/>
+						<Placeholder>
+							<Image
+								width={1200}
+								height={
+									1200 /
+									(project.capa.dimensions.width /
+										project.capa.dimensions.height)
+								}
+								layout="responsive"
+								src={project.capa.url}
+								alt={project.capa.alt}
+							/>
+						</Placeholder>
 					</div>
 				)}
 			</a>
