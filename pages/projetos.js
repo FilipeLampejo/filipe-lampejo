@@ -1,36 +1,51 @@
-import { fetchAllPosts } from "../lib/contentful";
-import Layout from "../components/layout";
+import { manageLocal } from "../utils/prismicHelpers";
+import { queryRepeatableDocuments } from "../utils/queries";
+
+import Meta from "../components/meta";
 
 import useTranslation from "next-translate/useTranslation";
 import { ProjectList } from "../components/project";
 
-export default function Projetos({ projects }) {
+export default function Projetos({ projects, lang }) {
 	let { t } = useTranslation();
 	return (
-		<Layout pageTitle={t("common:menu.projects")}>
-			<ProjectList projects={projects} />
-		</Layout>
+		<>
+			<Meta pageTitle={t("common:menu.projects")} />
+			<ProjectList projects={projects} locale={lang.currentLang} />
+		</>
 	);
 }
 
-export async function getStaticProps() {
-	const res = await fetchAllPosts({ contentType: "project" });
+export async function getStaticProps({
+	preview,
+	previewData,
+	locale,
+	locales,
+}) {
+	const ref = previewData ? previewData.ref : null;
+	const isPreview = preview || false;
 
-	const projects = res.map((p) => {
-		return p.fields;
+	const documents = await queryRepeatableDocuments(
+		(doc) => doc.type === "project"
+	);
+
+	const projects = documents.map((p) => {
+		return { ...p.data, slug: p.uid, lang: p.lang };
 	});
 
-	projects.sort((a, b) => {
-		if (a.date < b.date) {
-			return 1;
-		} else {
-			return -1;
-		}
-	});
+	const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
 
 	return {
 		props: {
 			projects,
+			preview: {
+				isActive: isPreview,
+				activeRef: ref,
+			},
+			lang: {
+				currentLang,
+				isMyMainLanguage,
+			},
 		},
 	};
 }

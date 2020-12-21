@@ -7,8 +7,8 @@
 		"projects": "Projects"
 	},
 	"locales": {
-		"pt-BR": "PT",
-		"en": "EN"
+		"pt-br": "PT",
+		"en-gb": "EN"
 	},
 	"footer": {
 		"credits": "design + code:",
