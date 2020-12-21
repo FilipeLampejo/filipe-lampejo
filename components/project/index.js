@@ -5,13 +5,11 @@ import typography from "../../styles/typography.module.scss";
 import grid from "../../styles/grid.module.scss";
 
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 import { useSpring, animated as a } from "react-spring";
 import Image from "next/image";
 
 import Year from "../date";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { useState, useEffect, useRef } from "react";
 import useTranslation from "next-translate/useTranslation";
 
