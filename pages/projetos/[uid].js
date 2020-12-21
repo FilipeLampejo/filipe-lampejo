@@ -62,13 +62,12 @@ export async function getStaticProps({
 	// const ref = previewData ? previewData.ref : null;
 	// const isPreview = preview || false;
 	const client = Client();
-	const doc =
-		(await client.getByUID(
-			"project",
-			params.uid,
-			// ref ? { ref, lang: locale } :
-			{ lang: locale }
-		)) || {};
+	const doc = await client.getByUID(
+		"project",
+		params.uid,
+		// ref ? { ref, lang: locale } :
+		{ lang: locale }
+	);
 	// const menu =
 	// 	(await client.getSingle(
 	// 		"top_menu",
@@ -80,7 +79,7 @@ export async function getStaticProps({
 	return {
 		props: {
 			// menu,
-			doc,
+			doc: doc ? doc : {},
 			// preview: {
 			// 	isActive: isPreview,
 			// 	activeRef: ref,
