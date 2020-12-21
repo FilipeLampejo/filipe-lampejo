@@ -17,13 +17,13 @@ export default function Projetos({ projects, lang }) {
 }
 
 export async function getStaticProps({
-	preview,
-	previewData,
+	// preview,
+	// previewData,
 	locale,
 	locales,
 }) {
-	const ref = previewData ? previewData.ref : null;
-	const isPreview = preview || false;
+	// const ref = previewData ? previewData.ref : null;
+	// const isPreview = preview || false;
 
 	const documents = await queryRepeatableDocuments(
 		(doc) => doc.type === "project"
@@ -38,10 +38,10 @@ export async function getStaticProps({
 	return {
 		props: {
 			projects,
-			preview: {
-				isActive: isPreview,
-				activeRef: ref,
-			},
+			// preview: {
+			// 	isActive: isPreview,
+			// 	activeRef: ref,
+			// },
 			lang: {
 				currentLang,
 				isMyMainLanguage,

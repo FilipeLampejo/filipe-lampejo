@@ -13,12 +13,16 @@ import SliceMachine from "../../components/sliceMachine";
 
 import { queryRepeatableDocuments } from "../../utils/queries";
 import { Client, manageLocal } from "../../utils/prismicHelpers";
-import useUpdatePreviewRef from "../../utils/hooks/useUpdatePreviewRef";
+// import useUpdatePreviewRef from "../../utils/hooks/useUpdatePreviewRef";
 
-export default function Project({ doc, lang, preview }) {
+export default function Project({
+	doc,
+	lang,
+	// preview
+}) {
 	if (doc && doc.data) {
 		useUpdatePreviewRef(preview, doc.id);
-		const project = doc.data;
+		// const project = doc.data;
 		return (
 			<article>
 				<Meta pageTitle={project.titulo} />
@@ -49,14 +53,14 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({
-	preview,
-	previewData,
+	// preview,
+	// previewData,
 	params,
 	locale,
 	locales,
 }) {
-	const ref = previewData ? previewData.ref : null;
-	const isPreview = preview || false;
+	// const ref = previewData ? previewData.ref : null;
+	// const isPreview = preview || false;
 	const client = Client();
 	const doc =
 		(await client.getByUID(
@@ -76,10 +80,10 @@ export async function getStaticProps({
 		props: {
 			// menu,
 			doc,
-			preview: {
-				isActive: isPreview,
-				activeRef: ref,
-			},
+			// preview: {
+			// 	isActive: isPreview,
+			// 	activeRef: ref,
+			// },
 			lang: {
 				currentLang,
 				isMyMainLanguage,
