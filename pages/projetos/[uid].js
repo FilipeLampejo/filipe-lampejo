@@ -21,7 +21,7 @@ export default function Project({
 	// preview
 }) {
 	if (doc && doc.data) {
-		useUpdatePreviewRef(preview, doc.id);
+		// useUpdatePreviewRef(preview, doc.id);
 		// const project = doc.data;
 		return (
 			<article>
@@ -66,7 +66,8 @@ export async function getStaticProps({
 		(await client.getByUID(
 			"project",
 			params.uid,
-			ref ? { ref, lang: locale } : { lang: locale }
+			// ref ? { ref, lang: locale } :
+			{ lang: locale }
 		)) || {};
 	// const menu =
 	// 	(await client.getSingle(
