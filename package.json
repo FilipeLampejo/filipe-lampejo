@@ -8,8 +8,6 @@
 		"start": "next start"
 	},
 	"dependencies": {
-		"@contentful/rich-text-react-renderer": "^14.1.2",
-		"@moxy/react-contentful-image": "^1.0.0",
 		"breakpoint-sass": "^2.7.1",
 		"contentful": "^7.15.0",
 		"date-fns": "^2.16.1",
