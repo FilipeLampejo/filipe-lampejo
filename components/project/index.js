@@ -1,16 +1,15 @@
-import { RichText } from "prismic-reactjs";
-
 import styles from "./styles.module.scss";
 import typography from "../../styles/typography.module.scss";
-import grid from "../../styles/grid.module.scss";
+import grid from "../..//styles/grid.module.scss";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { useSpring, animated as a } from "react-spring";
-import Placeholder from "../placeholder";
 import Image from "next/image";
 
 import Year from "../date";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { useState, useEffect, useRef } from "react";
 import useTranslation from "next-translate/useTranslation";
 
@@ -18,7 +17,7 @@ const columns = {
 	year: (project) => project.date,
 	category: (project) => project.categories,
 	client: (project) => project.client,
-	project: (project) => project.titulo,
+	project: (project) => project.title,
 	agency: (project) => project.agency,
 };
 
@@ -26,7 +25,13 @@ function ProjectListItem({ project, open, onClick }) {
 	let { t } = useTranslation();
 	let details = useRef();
 	const [height, setHeight] = useState(0);
-	const springProps = useSpring({ height: height });
+	const props = useSpring({ height: height });
+
+	let router = useRouter();
+	const dt = (obj) => {
+		if (!obj) return false;
+		return obj[router.locale] || obj[router.defaultLocale];
+	};
 
 	useEffect(() => {
 		if (details.current) {
@@ -35,15 +40,26 @@ function ProjectListItem({ project, open, onClick }) {
 			const finalPos = details.current.getBoundingClientRect().height;
 			details.current.style.height = initialPos;
 			setHeight(finalPos);
+			// console.log(initialPos, finalPos);
+			// details.current.animate(
+			// 	[
+			// 		{ height: `${parseInt(initialPos)}px` },
+			// 		{ height: `${parseInt(finalPos)}px` },
+			// 	],
+			// 	{
+			// 		duration: 600,
+			// 		easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+			// 	}
+			// );
 		}
-	}, [open, height]);
+	}, [open]);
 
 	const displayColumns = {
 		year: (text) => <Year dateString={text} />,
 		category: (categories) => (
 			<ul className={`${styles.categories} ${typography.smcp}`}>
 				{categories.map((cat) => (
-					<li key={cat.category.slug}>{cat.category.slug}</li>
+					<li key={cat.sys.id}>{dt(cat.fields.title)}</li>
 				))}
 			</ul>
 		),
@@ -52,6 +68,15 @@ function ProjectListItem({ project, open, onClick }) {
 		agency: (text) => text || "—",
 	};
 
+	let thumbProps;
+	if (project.cover) {
+		const fileInfo = dt(dt(project.cover).fields.file);
+		thumbProps = {
+			src: fileInfo.url,
+			ratio: fileInfo.details.image.width / fileInfo.details.image.height,
+		};
+	}
+
 	return (
 		<li
 			className={`${grid.col} ${styles.listItem} ${styles.listProject} ${
@@ -59,13 +84,13 @@ function ProjectListItem({ project, open, onClick }) {
 			}`}
 		>
 			<header
-				onClick={() => onClick(project.slug)}
+				onClick={() => onClick(dt(project.slug))}
 				className={`${styles.columns} ${grid.inner}`}
 			>
 				{Object.entries(columns).map(([key, value]) => (
 					<div className={styles.column} data-col={key} key={key}>
 						<dt className="visually-hidden">{t(`project:${key}`)}</dt>
-						<dd>{displayColumns[key](value(project))}</dd>
+						<dd>{displayColumns[key](dt(value(project)))}</dd>
 					</div>
 				))}
 				<div className={styles.column} data-col="more" key="more">
@@ -75,27 +100,19 @@ function ProjectListItem({ project, open, onClick }) {
 			<a.div
 				ref={details}
 				className={`${styles.details} ${grid.inner}`}
-				style={springProps}
+				style={props}
 			>
 				<div className={styles.image}>
-					{project.capa.url && (
-						<Placeholder>
-							<Image
-								width={1200}
-								height={
-									1200 /
-									(project.capa.dimensions.width /
-										project.capa.dimensions.height)
-								}
-								layout="responsive"
-								src={project.capa.url}
-							/>
-						</Placeholder>
-					)}
+					<Image
+						width={1200}
+						height={1200 / thumbProps.ratio}
+						layout="responsive"
+						src={`https:${thumbProps.src}`}
+					/>
 				</div>
 				<div className={styles.info}>
-					{RichText.asText(project.sobre)}
-					<Link href={`/projetos/${project.slug}`}>
+					{documentToReactComponents(dt(project.sobre))}
+					<Link href={`/projetos/${dt(project.slug)}`}>
 						<a className={`${styles.view} ${typography.smcp}`}>
 							{t("project:view")}
 						</a>
@@ -106,11 +123,18 @@ function ProjectListItem({ project, open, onClick }) {
 	);
 }
 
-export function ProjectList({ projects, locale }) {
+export function ProjectList({ projects }) {
 	let { t } = useTranslation();
 	const [orderBy, setOrderBy] = useState("year");
 	const [orderAsc, setOrderAsc] = useState(false);
 	const [open, setOpen] = useState();
+	const [projectList, setProjectList] = useState(projects);
+	let router = useRouter();
+
+	const dt = (obj) => {
+		if (!obj) return false;
+		return obj[router.locale] || obj[router.defaultLocale];
+	};
 
 	const toggleOpen = (slug) => {
 		open === slug ? setOpen(null) : setOpen(slug);
@@ -131,10 +155,9 @@ export function ProjectList({ projects, locale }) {
 				key="header"
 				className={`${styles.listItem} ${styles.listHeader} ${grid.col}`}
 			>
-				<ul className={`${styles.columns} ${grid.inner}`}>
+				<div className={`${styles.columns} ${grid.inner}`}>
 					{Object.keys(columns).map((col) => (
-						<li
-							key={col}
+						<div
 							data-col={col}
 							className={styles.column}
 							onClick={() => reorderTable(col)}
@@ -142,21 +165,15 @@ export function ProjectList({ projects, locale }) {
 						>
 							{t(`project:${col}`)}{" "}
 							{orderBy == col ? (orderAsc ? "↓" : "↑") : ""}
-						</li>
+						</div>
 					))}
-					<li
-						key={"more"}
-						className={styles.column}
-						data-col="more"
-						key="more"
-					></li>
-				</ul>
+					<div className={styles.column} data-col="more" key="more"></div>
+				</div>
 			</li>
-			{projects
-				.filter((project) => project.lang.toLowerCase() == locale.toLowerCase())
+			{projectList
 				.sort((a, b) => {
 					if (columns[orderBy]) {
-						return columns[orderBy](a) > columns[orderBy](b)
+						return dt(columns[orderBy](a)) > dt(columns[orderBy](b))
 							? orderAsc
 								? 1
 								: -1
@@ -168,9 +185,9 @@ export function ProjectList({ projects, locale }) {
 				})
 				.map((project) => (
 					<ProjectListItem
-						key={project.slug + project.lang}
+						key={project.slug[0]}
 						project={project}
-						open={open === project.slug}
+						open={open == dt(project.slug)}
 						onClick={toggleOpen}
 					/>
 				))}
@@ -179,8 +196,24 @@ export function ProjectList({ projects, locale }) {
 }
 
 export default function ProjectThumb({ project, onHover }) {
+	let thumbProps;
+
+	let router = useRouter();
+	const dt = (obj) => {
+		if (!obj) return false;
+		return obj[router.locale] || obj[router.defaultLocale];
+	};
+
+	if (project.cover) {
+		const fileInfo = dt(dt(project.cover).fields.file);
+		thumbProps = {
+			src: fileInfo.url,
+			ratio: fileInfo.details.image.width / fileInfo.details.image.height,
+		};
+	}
+
 	return (
-		<Link href={`/projetos/${project.slug}`}>
+		<Link href={`/projetos/${dt(project.slug)}`}>
 			<a
 				className={styles.project}
 				onMouseEnter={() => onHover(true)}
@@ -188,30 +221,23 @@ export default function ProjectThumb({ project, onHover }) {
 			>
 				<div className={`${styles.info}`}>
 					<h2 className={`${styles.title} ${typography.headingOne}`}>
-						<RichText render={project.displaytitle} />
+						<span>{documentToReactComponents(dt(project.displayTitle))}</span>
 					</h2>
 					<ul className={`${styles.categories} ${typography.smcp}`}>
-						{project.categories.map((cat) => (
-							<li key={cat.category.slug}>{cat.category.slug}</li>
+						{dt(project.categories).map((cat) => (
+							<li key={cat.sys.id}>{dt(cat.fields.title)}</li>
 						))}
 					</ul>
 				</div>
 
-				{project.capa.url && (
+				{thumbProps && (
 					<div className={styles.thumb}>
-						<Placeholder>
-							<Image
-								width={1200}
-								height={
-									1200 /
-									(project.capa.dimensions.width /
-										project.capa.dimensions.height)
-								}
-								layout="responsive"
-								src={project.capa.url}
-								alt={project.capa.alt}
-							/>
-						</Placeholder>
+						<Image
+							width={1200}
+							height={1200 / thumbProps.ratio}
+							layout="responsive"
+							src={`https:${thumbProps.src}`}
+						/>
 					</div>
 				)}
 			</a>

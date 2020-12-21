@@ -1,7 +1,7 @@
 import useTranslation from "next-translate/useTranslation";
-import Meta from "../components/meta";
+import Layout from "../components/layout";
 
 export default function Contato() {
 	const { t } = useTranslation();
-	return <Meta pageTitle={t("common:menu.contact")}></Meta>;
+	return <Layout pageTitle={t("common:menu.contact")}></Layout>;
 }

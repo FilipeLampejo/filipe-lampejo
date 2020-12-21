@@ -29,7 +29,7 @@ const LangPicker = () => {
 	);
 };
 
-export default function Navbar() {
+export default function Navbar({ home }) {
 	const { asPath } = useRouter();
 	let { t } = useTranslation();
 	const menuItems = {
@@ -56,7 +56,7 @@ export default function Navbar() {
 				</li>
 				<li
 					key="logo"
-					className={`${styles.logo} ${asPath === "/" ? styles.hidden : ""}`}
+					className={`${styles.logo} ${home ? styles.hidden : ""}`}
 				>
 					<Link href="/">
 						<a>{t("common:title")}</a>

@@ -1,7 +1,5 @@
-import { Client } from "../lib/prismic";
-import Prismic from "prismic-javascript";
-
-import Meta from "../components/meta";
+import { fetchAllPosts } from "../lib/contentful";
+import Layout from "../components/layout";
 import ProjectThumb from "../components/project";
 import Hero from "../components/hero";
 
@@ -10,51 +8,38 @@ import grid from "../styles/grid.module.scss";
 
 import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
-import { useRouter } from "next/router";
 
 export default function Home({ projects }) {
-	let { locale } = useRouter();
 	let { t } = useTranslation();
 	const [heroInvisible, setHeroInvisible] = useState(false);
 
 	return (
-		<>
-			<Meta />
+		<Layout home>
 			<Hero
 				title={t("common:title")}
 				desc={t("common:desc")}
 				invisible={heroInvisible}
 			/>
 			<section className={`${styles.projectList} ${grid.inner}`}>
-				{projects
-					.filter(
-						(project) => project.lang.toLowerCase() == locale.toLowerCase()
-					)
-					.map((project) => (
-						<div key={project.slug} className={styles.project}>
-							<ProjectThumb
-								onHover={(newState) => setHeroInvisible(newState)}
-								project={project}
-							/>
-						</div>
-					))}
+				{projects.map((project) => (
+					<div key={project.title} className={styles.project}>
+						<ProjectThumb
+							onHover={(newState) => setHeroInvisible(newState)}
+							project={project}
+						/>
+					</div>
+				))}
 			</section>
-		</>
+		</Layout>
 	);
 }
 
 export async function getStaticProps() {
-	const client = Client();
-	const response = await client.query(
-		Prismic.Predicates.at("document.type", "project"),
-		{ lang: "*" }
-	);
+	const res = await fetchAllPosts({ contentType: "project" });
 
-	const projects = response
-		? response.results.map((p) => {
-				return { ...p.data, slug: p.uid, lang: p.lang };
-		  })
-		: [];
+	const projects = res.map((p) => {
+		return p.fields;
+	});
 
 	projects.sort((a, b) => {
 		if (a.date < b.date) {

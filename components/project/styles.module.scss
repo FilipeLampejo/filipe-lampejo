@@ -20,9 +20,8 @@
 			order: 2;
 			color: var(--colour__accent);
 			text-transform: uppercase;
-
-			& > * {
-				display: inline;
+			display: inline;
+			span {
 				border-bottom: 2px solid;
 			}
 			em {
