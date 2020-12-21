@@ -24,7 +24,7 @@ export default function Home({ projects, lang }) {
 				invisible={heroInvisible}
 			/>
 			<section className={`${styles.projectList} ${grid.inner}`}>
-				{projects
+				{/* {projects
 					.filter(
 						(project) =>
 							project.lang.toLowerCase() == lang.currentLang.toLowerCase()
@@ -36,50 +36,50 @@ export default function Home({ projects, lang }) {
 								project={project}
 							/>
 						</div>
-					))}
+					))} */}
 			</section>
 		</>
 	);
 }
 
-export async function getStaticProps({
-	preview,
-	previewData,
-	locale,
-	locales,
-}) {
-	const ref = previewData ? previewData.ref : null;
-	const isPreview = preview || false;
+// export async function getStaticProps({
+// 	preview,
+// 	previewData,
+// 	locale,
+// 	locales,
+// }) {
+// 	const ref = previewData ? previewData.ref : null;
+// 	const isPreview = preview || false;
 
-	const documents = await queryRepeatableDocuments(
-		(doc) => doc.type === "project"
-	);
+// 	const documents = await queryRepeatableDocuments(
+// 		(doc) => doc.type === "project"
+// 	);
 
-	const projects = documents.map((p) => {
-		return { ...p.data, slug: p.uid, lang: p.lang };
-	});
+// 	const projects = documents.map((p) => {
+// 		return { ...p.data, slug: p.uid, lang: p.lang };
+// 	});
 
-	projects.sort((a, b) => {
-		if (a.date < b.date) {
-			return 1;
-		} else {
-			return -1;
-		}
-	});
+// 	projects.sort((a, b) => {
+// 		if (a.date < b.date) {
+// 			return 1;
+// 		} else {
+// 			return -1;
+// 		}
+// 	});
 
-	const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
+// 	const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
 
-	return {
-		props: {
-			projects,
-			preview: {
-				isActive: isPreview,
-				activeRef: ref,
-			},
-			lang: {
-				currentLang,
-				isMyMainLanguage,
-			},
-		},
-	};
-}
+// 	return {
+// 		props: {
+// 			projects,
+// 			preview: {
+// 				isActive: isPreview,
+// 				activeRef: ref,
+// 			},
+// 			lang: {
+// 				currentLang,
+// 				isMyMainLanguage,
+// 			},
+// 		},
+// 	};
+// }
