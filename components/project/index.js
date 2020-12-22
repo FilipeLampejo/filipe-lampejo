@@ -88,6 +88,9 @@ function ProjectListItem({ project, open, onClick }) {
 										project.capa.dimensions.height)
 								}
 								layout="responsive"
+								sizes="300px,
+										(max-width: 768px) 300px,
+            							600px"
 								src={project.capa.url}
 							/>
 						</Placeholder>
@@ -202,12 +205,15 @@ export default function ProjectThumb({ project, onHover }) {
 					<div className={styles.thumb}>
 						<Placeholder>
 							<Image
-								width={1200}
+								width={600}
 								height={
-									1200 /
+									600 /
 									(project.capa.dimensions.width /
 										project.capa.dimensions.height)
 								}
+								sizes="300px,
+										(max-width: 768px) 600px,
+            							1200px"
 								layout="responsive"
 								src={project.capa.url}
 								alt={project.capa.alt}
