@@ -1,5 +1,7 @@
 {
 	"locales": ["pt-BR", "en-GB"],
 	"defaultLocale": "pt-BR",
-	"pages": {}
+	"pages": {
+		"/projetos": ["project"]
+	}
 }
