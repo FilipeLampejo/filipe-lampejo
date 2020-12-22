@@ -88,9 +88,8 @@ function ProjectListItem({ project, open, onClick }) {
 										project.capa.dimensions.height)
 								}
 								layout="responsive"
-								sizes="300px,
-										(max-width: 768px) 300px,
-            							600px"
+								sizes="(max-width: 768px) 150px,
+            							300px"
 								src={project.capa.url}
 							/>
 						</Placeholder>
@@ -211,9 +210,8 @@ export default function ProjectThumb({ project, onHover }) {
 									(project.capa.dimensions.width /
 										project.capa.dimensions.height)
 								}
-								sizes="300px,
-										(max-width: 768px) 600px,
-            							1200px"
+								sizes="(max-width: 768px) 150px,
+            							300px"
 								layout="responsive"
 								src={project.capa.url}
 								alt={project.capa.alt}
