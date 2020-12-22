@@ -4,7 +4,8 @@ module.exports = {
 	// Configure your site's access point here
 	apiEndpoint: "https://filipe-lampejo.cdn.prismic.io/api/v2",
 	// process.env.NEXT_PUBLIC_PRISMIC_API_ENDPOINT,
-	accessToken: "",
+	accessToken:
+		"MC5YOTlma1JFQUFDQUE2TUJB.Ne-_ve-_ve-_ve-_vTLvv73vv70377-977-9Ou-_ve-_vQd977-9R1xVeu-_vSgCVw_vv70J77-977-9I3I",
 	// process.env.NEXT_PUBLIC_PRISMIC_ACCESS_TOKEN
 
 	// -- Link resolution rules
