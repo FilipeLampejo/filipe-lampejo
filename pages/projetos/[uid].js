@@ -61,7 +61,7 @@ export async function getStaticProps({
 	// previewData,
 	params,
 	locale,
-	locales,
+	// locales,
 }) {
 	// const ref = previewData ? previewData.ref : null;
 	// const isPreview = preview || false;
@@ -96,7 +96,7 @@ export async function getStaticProps({
 		};
 	}
 
-	const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
+	// const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
 
 	return {
 		props: {

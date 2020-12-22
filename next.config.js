@@ -1,7 +1,11 @@
 const nextTranslate = require("next-translate");
 
 module.exports = {
-	...nextTranslate(),
+	...nextTranslate({
+		webpack: (config, { isServer, webpack }) => {
+			return config;
+		},
+	}),
 	images: {
 		domains: ["images.prismic.io"],
 	},

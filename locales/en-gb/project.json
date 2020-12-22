@@ -1,8 +1,8 @@
 {
-	"year": "Ano",
-	"category": "Categoria",
-	"client": "Cliente",
-	"project": "Projeto",
-	"agency": "Agência",
-	"view": "Ver o projeto"
+	"year": "Year",
+	"category": "Category",
+	"client": "Client",
+	"project": "Project",
+	"agency": "Agency",
+	"view": "View project"
 }
