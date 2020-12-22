@@ -1,11 +1,11 @@
 .header {
-	margin-top: 128px;
+	margin-top: 25vh;
 }
 .info {
 	grid-column: col-3 / col-9;
 }
 .title {
-	grid-column: col-2 / col-8;
+	grid-column: grid-start / span 6;
 	margin-bottom: 2rem;
 	color: var(--colour__accent);
 	text-transform: uppercase;
