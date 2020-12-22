@@ -38,6 +38,7 @@ export default function Project({
 			</article>
 		);
 	}
+	return <article>Couldn't load page.</article>;
 }
 
 export async function getStaticPaths() {

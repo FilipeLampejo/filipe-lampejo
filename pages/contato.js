@@ -3,5 +3,10 @@ import Meta from "../components/meta";
 
 export default function Contato() {
 	const { t } = useTranslation();
-	return <Meta pageTitle={t("common:menu.contact")}></Meta>;
+	return (
+		<>
+			<Meta pageTitle={t("common:menu.contact")} />
+			Contato
+		</>
+	);
 }
