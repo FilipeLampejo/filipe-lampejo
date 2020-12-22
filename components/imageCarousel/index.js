@@ -30,6 +30,10 @@ export default function ImageCarousel({ images }) {
 							height={i.imagem.dimensions.height}
 							alt={i.imagem.alt}
 							layout="responsive"
+							sizes="768px,
+									(max-width: 768px) 768px,
+									(max-width: 1920px) 1366px,
+									1920px"
 						/>
 					</Placeholder>
 				</div>

@@ -36,6 +36,10 @@ const SliceImage = ({ primary }) => (
 				height={primary.imagem.dimensions.height}
 				alt={primary.imagem.alt}
 				layout="responsive"
+				sizes="768px,
+						(max-width: 768px) 768px,
+						(max-width: 1920px) 1366px,
+						1920px"
 			/>
 		</Placeholder>
 	</section>
