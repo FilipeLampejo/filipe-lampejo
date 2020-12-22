@@ -17,7 +17,7 @@ import { Client, manageLocal } from "../../utils/prismicHelpers";
 
 export default function Project({
 	doc,
-	lang,
+	// lang,
 	// preview
 }) {
 	if (doc && doc.data) {
@@ -84,10 +84,10 @@ export async function getStaticProps({
 			// 	isActive: isPreview,
 			// 	activeRef: ref,
 			// },
-			lang: {
-				currentLang,
-				isMyMainLanguage,
-			},
+			// lang: {
+			// 	currentLang,
+			// 	isMyMainLanguage,
+			// },
 		},
 	};
 }
