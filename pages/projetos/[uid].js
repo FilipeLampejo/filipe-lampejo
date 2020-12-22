@@ -44,9 +44,13 @@ export async function getStaticPaths() {
 	const documents = await queryRepeatableDocuments(
 		(doc) => doc.type === "project"
 	);
+
 	return {
 		paths: documents.map((doc) => {
-			return { params: { uid: doc.uid }, locale: doc.lang };
+			return {
+				params: { uid: doc.uid },
+				locale: doc.lang.slice(0, 3) + doc.lang.slice(3).toUpperCase(),
+			};
 		}),
 		fallback: false,
 	};
