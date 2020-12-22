@@ -17,7 +17,7 @@ import { Client, manageLocal } from "../../utils/prismicHelpers";
 
 export default function Project({
 	doc,
-	lang,
+	// lang,
 	// preview
 }) {
 	if (doc && doc.data) {
@@ -73,21 +73,22 @@ export async function getStaticProps({
 	// 		"top_menu",
 	// 		ref ? { ref, lang: locale } : { lang: locale }
 	// 	)) || {};
+	// const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
 
-	const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
-
-	return {
-		props: {
-			// menu,
-			doc: doc ? doc : {},
-			// preview: {
-			// 	isActive: isPreview,
-			// 	activeRef: ref,
-			// },
-			lang: {
-				currentLang,
-				isMyMainLanguage,
+	if (doc) {
+		return {
+			props: {
+				// menu,
+				doc: doc ? doc : {},
+				// preview: {
+				// 	isActive: isPreview,
+				// 	activeRef: ref,
+				// },
+				// lang: {
+				// 	currentLang,
+				// 	isMyMainLanguage,
+				// },
 			},
-		},
-	};
+		};
+	}
 }
