@@ -22,7 +22,7 @@ export default function Project({
 }) {
 	if (doc && doc.data) {
 		// useUpdatePreviewRef(preview, doc.id);
-		// const project = doc.data;
+		const project = doc.data;
 		return (
 			<article>
 				<Meta pageTitle={project.titulo} />

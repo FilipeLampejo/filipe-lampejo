@@ -69,17 +69,19 @@ export async function getStaticProps({
 
 	const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
 
-	return {
-		props: {
-			projects,
-			// preview: {
-			// 	isActive: isPreview,
-			// 	activeRef: ref,
-			// },
-			lang: {
-				currentLang,
-				isMyMainLanguage,
+	if (projects) {
+		return {
+			props: {
+				projects,
+				// preview: {
+				// 	isActive: isPreview,
+				// 	activeRef: ref,
+				// },
+				lang: {
+					currentLang,
+					isMyMainLanguage,
+				},
 			},
-		},
-	};
+		};
+	}
 }
