@@ -1,17 +1,17 @@
 {
 	"title": "Filipe Lampejo",
-	"desc": "Hi I'm Felipe",
+	"desc": "Desenhista gráfico independente e artista visual desde 2011. Fabricante de imagens com legenda e entusiasta de adjetivos. Desenhista gráfico independente e artista visual desde 2011. Fabricante de imagens com legenda e entusiasta de adjetivos. Desenhista gráfico independente e artista visual desde 2011. Fabricante de imagens com legenda e entusiasta de adjetivos.",
 	"menu": {
-		"about": "About",
-		"contact": "Contact",
-		"projects": "Projects"
+		"about": "Sobre",
+		"contact": "Contato",
+		"projects": "Projetos"
 	},
 	"locales": {
 		"pt-BR": "PT",
 		"en-GB": "EN"
 	},
 	"footer": {
-		"credits": "design + code:",
+		"credits": "design + código:",
 		"author": "Penumbra"
 	}
 }
