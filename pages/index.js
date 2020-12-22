@@ -24,19 +24,14 @@ export default function Home({ projects, lang }) {
 				invisible={heroInvisible}
 			/>
 			<section className={`${styles.projectList} ${grid.inner}`}>
-				{projects
-					.filter(
-						(project) =>
-							project.lang.toLowerCase() == lang.currentLang.toLowerCase()
-					)
-					.map((project) => (
-						<div key={project.slug} className={styles.project}>
-							<ProjectThumb
-								onHover={(newState) => setHeroInvisible(newState)}
-								project={project}
-							/>
-						</div>
-					))}
+				{projects.map((project) => (
+					<div key={project.slug} className={styles.project}>
+						<ProjectThumb
+							onHover={(newState) => setHeroInvisible(newState)}
+							project={project}
+						/>
+					</div>
+				))}
 			</section>
 		</>
 	);
@@ -51,8 +46,11 @@ export async function getStaticProps({
 	// const ref = previewData ? previewData.ref : null;
 	// const isPreview = preview || false;
 
+	const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
+
 	const documents = await queryRepeatableDocuments(
-		(doc) => doc.type === "project"
+		(doc) =>
+			doc.type === "project" && doc.lang.slice(0, 2) === currentLang.slice(0, 2)
 	);
 
 	const projects = documents.map((p) => {
@@ -66,8 +64,6 @@ export async function getStaticProps({
 			return -1;
 		}
 	});
-
-	const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
 
 	if (projects) {
 		return {

@@ -116,6 +116,8 @@ export function ProjectList({ projects, locale }) {
 		open === slug ? setOpen(null) : setOpen(slug);
 	};
 
+	console.log(projects);
+
 	const reorderTable = (col) => {
 		if (col == orderBy) {
 			setOrderAsc(!orderAsc);
@@ -153,7 +155,6 @@ export function ProjectList({ projects, locale }) {
 				</ul>
 			</li>
 			{projects
-				.filter((project) => project.lang.toLowerCase() == locale.toLowerCase())
 				.sort((a, b) => {
 					if (columns[orderBy]) {
 						return columns[orderBy](a) > columns[orderBy](b)

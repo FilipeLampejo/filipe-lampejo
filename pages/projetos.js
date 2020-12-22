@@ -24,16 +24,16 @@ export async function getStaticProps({
 }) {
 	// const ref = previewData ? previewData.ref : null;
 	// const isPreview = preview || false;
+	const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
 
 	const documents = await queryRepeatableDocuments(
-		(doc) => doc.type === "project"
+		(doc) =>
+			doc.type === "project" && doc.lang.slice(0, 2) === currentLang.slice(0, 2)
 	);
 
 	const projects = documents.map((p) => {
 		return { ...p.data, slug: p.uid, lang: p.lang };
 	});
-
-	const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
 
 	if (documents) {
 		return {

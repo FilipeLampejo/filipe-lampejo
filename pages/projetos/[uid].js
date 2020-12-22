@@ -68,6 +68,10 @@ export async function getStaticProps({
 	locale,
 	// locales,
 }) {
+	const langs = {
+		en: "en-gb",
+		"pt-BR": "pt-br",
+	};
 	// const ref = previewData ? previewData.ref : null;
 	// const isPreview = preview || false;
 	const client = Client();
@@ -75,7 +79,7 @@ export async function getStaticProps({
 		"project",
 		params.uid,
 		// ref ? { ref, lang: locale } :
-		{ lang: locale }
+		{ lang: langs[locale] }
 	);
 	// const menu =
 	// 	(await client.getSingle(
