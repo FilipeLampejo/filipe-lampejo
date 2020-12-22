@@ -75,6 +75,7 @@ export async function getStaticProps({
 	// 	)) || {};
 	// const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
 
+<<<<<<< HEAD
 	if (doc) {
 		return {
 			props: {
@@ -91,4 +92,22 @@ export async function getStaticProps({
 			},
 		};
 	}
+=======
+	const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
+
+	return {
+		props: {
+			// menu,
+			doc: doc ? doc : {},
+			// preview: {
+			// 	isActive: isPreview,
+			// 	activeRef: ref,
+			// },
+			// lang: {
+			// 	currentLang,
+			// 	isMyMainLanguage,
+			// },
+		},
+	};
+>>>>>>> ff8e1c656b8994ca8a2d8e8454d11df834adb8d6
 }
