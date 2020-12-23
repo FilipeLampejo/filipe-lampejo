@@ -16,7 +16,7 @@ export default function Sobre({ doc }) {
 	return (
 		<>
 			<Meta pageTitle={t("common:menu.about")} />
-			{doc && (
+			{doc && doc.data && (
 				<article className={`${grid.col} ${styles.container}`}>
 					{doc.data.imagem.url && (
 						<div className={styles.img}>

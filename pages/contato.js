@@ -13,7 +13,7 @@ export default function Contato({ doc }) {
 	const { t } = useTranslation();
 	return (
 		<>
-			{doc && (
+			{doc && doc.data && (
 				<article className={`${grid.col} ${styles.container}`}>
 					<Meta pageTitle={t("common:menu.contact")} />
 					<section className={`${styles.body} ${typography.body}`}>
