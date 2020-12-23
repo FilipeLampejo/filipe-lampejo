@@ -1,0 +1,49 @@
+@import "../abstracts/mixins";
+
+.container {
+	padding: 25vh 0;
+}
+
+.img {
+	grid-column: grid-start / grid-end;
+	@include tablet {
+		grid-column: col-2 / col-7;
+	}
+}
+
+.body {
+	margin: calc(2 * var(--gutter)) 0;
+	grid-column: grid-start / grid-end;
+	@include tablet {
+		margin: calc(1 * var(--gutter)) 0;
+		grid-column: col-3 / col-7;
+	}
+}
+
+.prizes {
+	margin: calc(2 * var(--gutter)) 0;
+	grid-column: grid-start / grid-end;
+	@include tablet {
+		margin: calc(1 * var(--gutter)) 0;
+		grid-column: col-9 / grid-end;
+	}
+	h2 {
+		margin-bottom: calc(1.618em - 1px);
+		border-bottom: 1px solid;
+		display: inline-block;
+	}
+	h2,
+	h3 {
+		font-size: 1rem;
+		line-height: 1.618;
+	}
+	ul {
+		li {
+			margin-bottom: 1.618em;
+		}
+	}
+
+	.entity {
+		font-style: italic;
+	}
+}

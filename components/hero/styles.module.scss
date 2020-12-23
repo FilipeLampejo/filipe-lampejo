@@ -1,13 +1,17 @@
-@import "breakpoint-sass", "../../styles/abstracts/variables";
+@import "../../styles/abstracts/mixins";
 
 .hero {
-	top: 25vh;
-	position: fixed;
-	visibility: visible;
+	margin: 25vh 0;
+	@include tablet {
+		margin: 0;
+		top: 25vh;
+		position: fixed;
+		visibility: visible;
 
-	&.invisible {
-		visibility: hidden;
-		pointer-events: none;
+		&.invisible {
+			visibility: hidden;
+			pointer-events: none;
+		}
 	}
 }
 
@@ -16,8 +20,9 @@
 }
 
 .bio {
+	margin-top: 1rem;
 	grid-column: grid-start / col-10;
-	@include breakpoint($tablet-l) {
+	@include tablet {
 		grid-column: grid-start / span 4;
 	}
 }

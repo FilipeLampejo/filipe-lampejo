@@ -79,24 +79,30 @@ function ProjectListItem({ project, open, onClick }) {
 			>
 				<div className={styles.image}>
 					{project.capa.url && (
-						<Placeholder>
-							<Image
-								width={1200}
-								height={
-									1200 /
-									(project.capa.dimensions.width /
-										project.capa.dimensions.height)
-								}
-								layout="responsive"
-								sizes="(max-width: 768px) 150px,
-            							300px"
-								src={project.capa.url}
-							/>
-						</Placeholder>
+						<Link href={`/projetos/${project.slug}`}>
+							<a>
+								<Placeholder>
+									<Image
+										width={1200}
+										height={
+											1200 /
+											(project.capa.dimensions.width /
+												project.capa.dimensions.height)
+										}
+										layout="responsive"
+										sizes="(max-width: 768px) 150px,
+	            							300px"
+										src={project.capa.url}
+									/>
+								</Placeholder>
+							</a>
+						</Link>
 					)}
 				</div>
 				<div className={styles.info}>
-					{RichText.asText(project.sobre)}
+					<div className={typography.body}>
+						<RichText render={project.sobre} />
+					</div>
 					<Link href={`/projetos/${project.slug}`}>
 						<a className={`${styles.view} ${typography.smcp}`}>
 							{t("project:view")}
@@ -117,8 +123,6 @@ export function ProjectList({ projects, locale }) {
 	const toggleOpen = (slug) => {
 		open === slug ? setOpen(null) : setOpen(slug);
 	};
-
-	console.log(projects);
 
 	const reorderTable = (col) => {
 		if (col == orderBy) {
@@ -189,17 +193,6 @@ export default function ProjectThumb({ project, onHover }) {
 				onMouseEnter={() => onHover(true)}
 				onMouseLeave={() => onHover(false)}
 			>
-				<div className={`${styles.info}`}>
-					<h2 className={`${styles.title} ${typography.headingOne}`}>
-						<RichText render={project.displaytitle} />
-					</h2>
-					<ul className={`${styles.categories} ${typography.smcp}`}>
-						{project.categories.map((cat) => (
-							<li key={cat.category.slug}>{cat.category.slug}</li>
-						))}
-					</ul>
-				</div>
-
 				{project.capa.url && (
 					<div className={styles.thumb}>
 						<Placeholder>
@@ -219,6 +212,16 @@ export default function ProjectThumb({ project, onHover }) {
 						</Placeholder>
 					</div>
 				)}
+				<div className={`${styles.info}`}>
+					<ul className={`${styles.categories} ${typography.smcp}`}>
+						{project.categories.map((cat) => (
+							<li key={cat.category.slug}>{cat.category.slug}</li>
+						))}
+					</ul>
+					<h2 className={`${styles.title} ${typography.headingOne}`}>
+						<RichText render={project.displaytitle} />
+					</h2>
+				</div>
 			</a>
 		</Link>
 	);

@@ -6,12 +6,14 @@
 		"contact": "Contato",
 		"projects": "Projetos"
 	},
+	"fichaTecnica": "Ficha Técnica",
+	"premiacoes": "Premiações",
 	"locales": {
 		"pt-BR": "PT",
 		"en": "EN"
 	},
 	"footer": {
-		"credits": "design + código:",
+		"credits": "contato@filipelampejo.cc — +55 31 99503 9502 — ig @filipe_lampejo — design + código:",
 		"author": "Penumbra"
 	}
 }

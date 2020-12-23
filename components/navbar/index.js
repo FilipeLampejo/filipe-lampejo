@@ -34,8 +34,8 @@ export default function Navbar() {
 	let { t } = useTranslation();
 	const menuItems = {
 		sobre: t("common:menu.about"),
-		contato: t("common:menu.contact"),
 		projetos: t("common:menu.projects"),
+		contato: t("common:menu.contact"),
 	};
 
 	return (
@@ -58,9 +58,9 @@ export default function Navbar() {
 					key="logo"
 					className={`${styles.logo} ${asPath === "/" ? styles.hidden : ""}`}
 				>
-					<Link href="/">
-						<a>{t("common:title")}</a>
-					</Link>
+					<Button href="/" type="link">
+						{t("common:title")}
+					</Button>
 				</li>
 			</ul>
 		</aside>

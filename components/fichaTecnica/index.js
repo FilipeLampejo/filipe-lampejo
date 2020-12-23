@@ -1,10 +1,13 @@
 import React from "react";
 import styles from "./styles.module.scss";
+import useTranslation from "next-translate/useTranslation";
+import typography from "../../styles/typography.module.scss";
 
 export default function FichaTecnica({ items }) {
+	let { t } = useTranslation();
 	return (
 		<>
-			<h2 className={styles.title}>Ficha Técnica</h2>
+			<h2 className={styles.title}>{t("common:fichaTecnica")}</h2>
 			<dl className={styles.ficha}>
 				{items.map((item) => (
 					<React.Fragment key={item.tarefa + item.executor}>

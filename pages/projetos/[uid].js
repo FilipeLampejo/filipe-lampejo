@@ -24,13 +24,13 @@ export default function Project({
 		// useUpdatePreviewRef(preview, doc.id);
 		const project = doc.data;
 		return (
-			<article>
+			<article className={styles.container}>
 				<Meta pageTitle={project.titulo} />
 				<header className={`${grid.col} ${styles.header}`}>
 					<h1 className={`${styles.title} ${typography.headingOne}`}>
 						<RichText render={project.displaytitle} />
 					</h1>
-					<div className={styles.info}>
+					<div className={`${styles.info} ${typography.body}`}>
 						<RichText render={project.sobre} />
 					</div>
 				</header>
@@ -104,21 +104,4 @@ export async function getStaticProps({
 			},
 		};
 	}
-
-	// const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
-
-	return {
-		props: {
-			// menu,
-			doc: doc ? doc : {},
-			// preview: {
-			// 	isActive: isPreview,
-			// 	activeRef: ref,
-			// },
-			// lang: {
-			// 	currentLang,
-			// 	isMyMainLanguage,
-			// },
-		},
-	};
 }

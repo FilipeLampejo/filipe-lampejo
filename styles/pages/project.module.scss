@@ -1,14 +1,22 @@
-.header {
-	margin-top: 25vh;
+@import "../abstracts/mixins";
+
+.container {
+	margin: 25vh 0;
 }
 .info {
-	grid-column: col-3 / col-9;
+	grid-column: grid-start / grid-end;
+	@include tablet {
+		grid-column: col-3 / col-9;
+	}
+	hanging-punctuation: first;
 }
 .title {
-	grid-column: grid-start / span 6;
+	grid-column: grid-start / grid-end;
+	@include tablet {
+		grid-column: grid-start / span 6;
+	}
 	margin-bottom: 2rem;
 	color: var(--colour__accent);
-	text-transform: uppercase;
 
 	& > * {
 		display: inline;

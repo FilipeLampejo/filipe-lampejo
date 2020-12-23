@@ -1,3 +1,5 @@
+@import "../../styles/abstracts/mixins";
+
 .container {
 	& > * {
 		margin: 2rem 0;
@@ -7,10 +9,16 @@
 .slice {
 	grid-column: grid-start / grid-end;
 	&Md {
-		grid-column: col-3 / col-9;
+		grid-column: grid-start / grid-end;
+		@include tablet {
+			grid-column: col-3 / col-9;
+		}
 	}
 	&Sm {
-		grid-column: col-10 / grid-end;
+		grid-column: grid-start / grid-end;
+		@include tablet {
+			grid-column: col-10 / grid-end;
+		}
 	}
 	&Lg {
 		grid-column: screen-start / screen-end;
@@ -27,13 +35,22 @@
 	&--pequeno {
 		&.align {
 			&--esquerda {
-				grid-column: grid-start / span 6;
+				grid-column: grid-start / grid-end;
+				@include tablet {
+					grid-column: grid-start / span 8;
+				}
 			}
 			&--direita {
-				grid-column: span 6 / grid-end;
+				grid-column: span 8 / grid-end;
+				@include tablet {
+					grid-column: span 6 / grid-end;
+				}
 			}
 			&--centro {
-				grid-column: col-4 / col-10;
+				grid-column: col-3 / col-11;
+				@include tablet {
+					grid-column: col-4 / col-10;
+				}
 			}
 		}
 	}

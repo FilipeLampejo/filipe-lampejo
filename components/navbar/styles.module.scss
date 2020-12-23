@@ -34,16 +34,17 @@
 			order: 1;
 		}
 		&:nth-child(2) {
-			order: 4;
-			align-self: flex-end;
+			order: 2;
+
+			align-self: flex-start;
+			text-align: right;
 			@include desktop {
 				order: 2;
 			}
 		}
 		&:nth-child(3) {
-			order: 2;
-			align-self: flex-start;
-			text-align: right;
+			order: 4;
+			align-self: flex-end;
 			@include desktop {
 				text-align: initial;
 				order: 4;
@@ -66,6 +67,15 @@
 			position: static;
 			left: initial;
 			transform: none;
+		}
+
+		a {
+			letter-spacing: 0;
+			font-variant-caps: initial;
+			-moz-font-feature-settings: initial;
+			-webkit-font-feature-settings: initial;
+			font-feature-settings: initial;
+			text-transform: none;
 		}
 	}
 }

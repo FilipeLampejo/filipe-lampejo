@@ -21,10 +21,12 @@ export default function ImageCarousel({ images }) {
 	return (
 		<figure className={`${styles.container} ${grid.col}`}>
 			{gallery.map((i) => (
-				<div className={styles.image}>
+				<div
+					className={styles.image}
+					onClick={() => handleClick(images.indexOf(i))}
+				>
 					<Placeholder>
 						<Image
-							onClick={() => handleClick(images.indexOf(i))}
 							src={i.imagem.url}
 							width={i.imagem.dimensions.width}
 							height={i.imagem.dimensions.height}

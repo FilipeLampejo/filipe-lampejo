@@ -1,4 +1,5 @@
 import grid from "../../styles/grid.module.scss";
+import typography from "../../styles/typography.module.scss";
 import styles from "./styles.module.scss";
 
 import { RichText } from "prismic-reactjs";
@@ -9,7 +10,7 @@ import FichaTecnica from "../fichaTecnica";
 import ImageCarousel from "../imageCarousel";
 
 const SliceBodyText = ({ primary }) => (
-	<section className={styles.sliceMd}>
+	<section className={`${styles.sliceMd} ${typography.body}`}>
 		<RichText render={primary.body_text} />
 	</section>
 );
