@@ -6,7 +6,6 @@ import useTranslation from "next-translate/useTranslation";
 
 export default function Footer({ data }) {
 	const { t } = useTranslation();
-	console.log(data);
 	return (
 		<footer className={styles.footer}>
 			<h2 className="visually-hidden">{t("common:colophon")}</h2>

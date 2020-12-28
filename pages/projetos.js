@@ -35,7 +35,6 @@ async function fetcher(input) {
 	const projects = documents.map((p) => {
 		return { ...p.data, slug: p.uid, lang: p.lang };
 	});
-	console.log(projects, input);
 	return projects;
 }
 
