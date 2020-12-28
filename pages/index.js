@@ -36,7 +36,7 @@ export default function Home({ doc, lang }) {
 							<div key={project.slug} className={styles.project}>
 								<ProjectThumb
 									onHover={(newState) => setHeroInvisible(newState)}
-									project={{ ...project.data, slug: project.slug }}
+									project={{ ...project.data, slug: project.uid }}
 								/>
 							</div>
 						);
