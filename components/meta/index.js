@@ -46,7 +46,8 @@ export default function Meta({ pageTitle, pageDesc, pageType, pageImage }) {
 			<meta name="apple-mobile-web-app-capable" content="yes" />
 			<meta
 				name="apple-mobile-web-app-status-bar-style"
-				content="black-translucent"
+				content="default"
+				// content="black-translucent"
 			/>
 			<link rel="apple-touch-startup-image" href="/splash.png" />
 
