@@ -26,6 +26,7 @@
 		width: 50%;
 		@include desktop {
 			width: initial;
+			flex: 1 1 0px;
 		}
 		padding: 0.618em;
 
@@ -35,10 +36,10 @@
 		}
 		&:nth-child(2) {
 			order: 2;
-
 			align-self: flex-start;
 			text-align: right;
 			@include desktop {
+				text-align: left;
 				order: 2;
 			}
 		}
@@ -46,7 +47,7 @@
 			order: 4;
 			align-self: flex-end;
 			@include desktop {
-				text-align: initial;
+				text-align: right;
 				order: 4;
 			}
 		}
@@ -67,6 +68,8 @@
 			position: static;
 			left: initial;
 			transform: none;
+			flex: 1 1 0px;
+			text-align: center;
 		}
 
 		a {
