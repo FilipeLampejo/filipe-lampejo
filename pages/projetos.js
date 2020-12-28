@@ -1,52 +1,63 @@
-import { manageLocal } from "../utils/prismicHelpers";
 import { queryRepeatableDocuments } from "../utils/queries";
+import useSWR from "swr";
 
 import Meta from "../components/meta";
 import Layout from "../components/layout";
 
 import useTranslation from "next-translate/useTranslation";
 import { ProjectList } from "../components/project";
+import { useRouter } from "next/router";
 
 export default function Projetos({ projects, lang }) {
 	let { t } = useTranslation();
+	const { locale } = useRouter();
+	const { data, error } = useSWR(`project/${locale}`, fetcher, {
+		initialData: projects,
+	});
+	if (error) return "An error has occurred.";
+	if (!data) return "Loading...";
 	return (
 		<Layout>
 			<Meta pageTitle={t("common:menu.projects")} />
-			<ProjectList projects={projects} locale={lang.currentLang} />
+			<ProjectList projects={data} locale={lang} />
 		</Layout>
 	);
+}
+
+async function fetcher(input) {
+	const [docType, locale] = input.split("/");
+	const documents = await queryRepeatableDocuments(
+		(doc) => doc.type === docType && doc.lang.slice(0, 2) === locale.slice(0, 2)
+	);
+	const projects = documents.map((p) => {
+		return { ...p.data, slug: p.uid, lang: p.lang };
+	});
+	console.log(projects, input);
+	return projects;
 }
 
 export async function getStaticProps({
 	// preview,
 	// previewData,
 	locale,
-	locales,
+	// locales,
 }) {
-	// const ref = previewData ? previewData.ref : null;
-	// const isPreview = preview || false;
-	const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
-
-	const documents = await queryRepeatableDocuments(
-		(doc) =>
-			doc.type === "project" && doc.lang.slice(0, 2) === currentLang.slice(0, 2)
-	);
-
-	const projects = documents.map((p) => {
-		return { ...p.data, slug: p.uid, lang: p.lang };
-	});
-
-	if (documents) {
+	const projects = await fetcher(`project/${locale}`);
+	if (projects) {
 		return {
 			props: {
 				projects,
-				// preview: {
-				// 	isActive: isPreview,
-				// 	activeRef: ref,
-				// },
 				lang: {
-					currentLang,
-					isMyMainLanguage,
+					locale,
+				},
+			},
+		};
+	} else {
+		return {
+			props: {
+				projects: [],
+				lang: {
+					locale,
 				},
 			},
 		};
