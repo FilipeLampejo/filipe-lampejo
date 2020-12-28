@@ -16,7 +16,8 @@ import useTranslation from "next-translate/useTranslation";
 
 const columns = {
 	year: (project) => project.date,
-	category: (project) => project.categories,
+	category: (project) =>
+		project.categories.map((cat) => cat.category.slug).join(", "),
 	client: (project) => project.client,
 	project: (project) => project.titulo,
 	agency: (project) => project.agency,
@@ -39,7 +40,7 @@ function ProjectListItem({ project, open, onClick }) {
 	}, [open, height]);
 
 	const displayColumns = {
-		year: (text) => (text ? <Year dateString={text} /> : "—"),
+		year: (text) => (text ? <Year dateString={text} /> : false),
 		category: (categories) =>
 			categories && typeof categories === "array" ? (
 				<ul className={`${styles.categories} ${typography.smcp}`}>
@@ -48,11 +49,11 @@ function ProjectListItem({ project, open, onClick }) {
 					))}
 				</ul>
 			) : (
-				"—"
+				false
 			),
-		client: (text) => text || "—",
-		project: (text) => text || "—",
-		agency: (text) => text || "—",
+		client: (text) => text || false,
+		project: (text) => text || false,
+		agency: (text) => text || false,
 	};
 
 	return (
@@ -68,7 +69,7 @@ function ProjectListItem({ project, open, onClick }) {
 				{Object.entries(columns).map(([key, value]) => (
 					<div className={styles.column} data-col={key} key={key}>
 						<dt className="visually-hidden">{t(`project:${key}`)}</dt>
-						<dd>{displayColumns[key](value(project))}</dd>
+						<dd>{displayColumns[key](value(project)) || "–"}</dd>
 					</div>
 				))}
 				<div className={styles.column} data-col="more" key="more">
@@ -124,18 +125,37 @@ export function ProjectList({ projects }) {
 	const [orderBy, setOrderBy] = useState("year");
 	const [orderAsc, setOrderAsc] = useState(false);
 	const [open, setOpen] = useState();
-
+	const [sortedProjects, setSortedProjects] = useState(projects);
 	const toggleOpen = (slug) => {
 		open === slug ? setOpen(null) : setOpen(slug);
 	};
 
+	useEffect(() => sortTable(projects, { orderAsc, orderBy }), [projects]);
+
 	const reorderTable = (col) => {
 		if (col == orderBy) {
 			setOrderAsc(!orderAsc);
+			sortTable(sortedProjects, { orderAsc: !orderAsc, orderBy: col });
 		} else {
 			setOrderAsc(true);
 			setOrderBy(col);
+			sortTable(sortedProjects, { orderAsc: true, orderBy: col });
 		}
+	};
+
+	const sortTable = (input, { orderAsc, orderBy }) => {
+		input &&
+			setSortedProjects(
+				input.sort((pa, pb) => {
+					const a = columns[orderBy](pa);
+					const b = columns[orderBy](pb);
+					const multiplier = orderAsc ? 1 : -1;
+					if (a === b) return 0;
+					else if (a === null) return 1;
+					else if (b === null) return -1;
+					else return a.localeCompare(b) * multiplier;
+				})
+			);
 	};
 
 	return (
@@ -165,28 +185,15 @@ export function ProjectList({ projects }) {
 					></li>
 				</ul>
 			</li>
-			{projects &&
-				projects
-					.sort((a, b) => {
-						if (columns[orderBy]) {
-							return columns[orderBy](a) > columns[orderBy](b)
-								? orderAsc
-									? 1
-									: -1
-								: orderAsc
-								? -1
-								: 1;
-						}
-						return 0;
-					})
-					.map((project) => (
-						<ProjectListItem
-							key={project.slug + project.lang}
-							project={project}
-							open={open === project.slug}
-							onClick={toggleOpen}
-						/>
-					))}
+			{sortedProjects &&
+				sortedProjects.map((project) => (
+					<ProjectListItem
+						key={project.slug}
+						project={project}
+						open={open === project.slug}
+						onClick={toggleOpen}
+					/>
+				))}
 		</ul>
 	);
 }
