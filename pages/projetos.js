@@ -13,7 +13,6 @@ export default function Projetos({ projects, lang }) {
 	const { locale } = useRouter();
 	const { data, error } = useSWR(`project/${locale}`, fetcher, {
 		initialData: projects,
-		revalidateOnMount: true,
 	});
 	if (error) return "An error has occurred.";
 	if (!data) return "Loading...";
