@@ -77,8 +77,8 @@ export async function getStaticProps({
 
 	return {
 		props: {
-			doc,
-			footer,
+			doc: doc || {},
+			footer: footer || {},
 			preview: {
 				isActive: isPreview,
 				activeRef: ref,

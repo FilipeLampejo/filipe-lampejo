@@ -100,8 +100,8 @@ export async function getStaticProps({ params, locale }) {
 		return {
 			revalidate: 60,
 			props: {
-				doc,
-				footer,
+				doc: doc || {},
+				footer: footer || {},
 			},
 		};
 	}

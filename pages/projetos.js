@@ -46,7 +46,7 @@ export async function getStaticProps({ locale }) {
 
 	return {
 		props: {
-			footer,
+			footer: footer || {},
 		},
 	};
 }

@@ -80,8 +80,8 @@ export async function getStaticProps({ locale }) {
 	if (doc) {
 		return {
 			props: {
-				footer: footer,
-				doc: doc,
+				footer: footer || {},
+				doc: doc || {},
 			},
 		};
 	}
