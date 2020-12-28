@@ -39,14 +39,17 @@ function ProjectListItem({ project, open, onClick }) {
 	}, [open, height]);
 
 	const displayColumns = {
-		year: (text) => <Year dateString={text} />,
-		category: (categories) => (
-			<ul className={`${styles.categories} ${typography.smcp}`}>
-				{categories.map((cat) => (
-					<li key={cat.category.slug}>{cat.category.slug}</li>
-				))}
-			</ul>
-		),
+		year: (text) => (text ? <Year dateString={text} /> : "—"),
+		category: (categories) =>
+			categories && typeof categories === "array" ? (
+				<ul className={`${styles.categories} ${typography.smcp}`}>
+					{categories.map((cat) => (
+						<li key={cat.category.slug}>{cat.category.slug}</li>
+					))}
+				</ul>
+			) : (
+				"—"
+			),
 		client: (text) => text || "—",
 		project: (text) => text || "—",
 		agency: (text) => text || "—",
@@ -82,18 +85,20 @@ function ProjectListItem({ project, open, onClick }) {
 						<Link href={`/projetos/${project.slug}`}>
 							<a>
 								<Placeholder>
-									<Image
-										width={1200}
-										height={
-											1200 /
-											(project.capa.dimensions.width /
-												project.capa.dimensions.height)
-										}
-										layout="responsive"
-										sizes="(max-width: 768px) 150px,
+									{project.capa.url && (
+										<Image
+											width={1200}
+											height={
+												1200 /
+												(project.capa.dimensions.width /
+													project.capa.dimensions.height)
+											}
+											layout="responsive"
+											sizes="(max-width: 768px) 150px,
 	            							300px"
-										src={project.capa.url}
-									/>
+											src={project.capa.url}
+										/>
+									)}
 								</Placeholder>
 							</a>
 						</Link>
@@ -101,7 +106,7 @@ function ProjectListItem({ project, open, onClick }) {
 				</div>
 				<div className={styles.info}>
 					<div className={typography.body}>
-						<RichText render={project.sobre} />
+						{project.sobre && <RichText render={project.sobre} />}
 					</div>
 					<Link href={`/projetos/${project.slug}`}>
 						<a className={`${styles.view} ${typography.smcp}`}>
