@@ -11,7 +11,9 @@ import { useRouter } from "next/router";
 export default function Projetos({ projects, lang }) {
 	let { t } = useTranslation();
 	const { locale } = useRouter();
-	const { data } = useSWR(`project/${locale}`, fetcher);
+	const { data } = useSWR(`project/${locale}`, fetcher, {
+		revalidateOnMount: true,
+	});
 
 	return (
 		<Layout>
