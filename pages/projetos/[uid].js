@@ -73,7 +73,7 @@ export async function getStaticPaths() {
 				locale: localeToNext(doc.lang),
 			};
 		}),
-		fallback: false,
+		fallback: true,
 	};
 }
 
