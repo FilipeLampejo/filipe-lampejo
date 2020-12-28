@@ -19,7 +19,10 @@ export default function Meta({ pageTitle, pageDesc, pageType, pageImage }) {
 			<meta property="og:description" content={tabInfo.desc} />
 			<meta name="description" content={tabInfo.desc} />
 
-			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta
+				name="viewport"
+				content="viewport-fit=cover, width=device-width, initial-scale=1.0"
+			/>
 
 			<meta name="theme-color" content="#f0f0f0" />
 			<link rel="manifest" href="/manifest.json" />
@@ -38,6 +41,14 @@ export default function Meta({ pageTitle, pageDesc, pageType, pageImage }) {
 			<meta name="twitter:card" content="summary_large_image" />
 			<meta property="og:type" content={pageType || "website"} />
 			<meta name="og:email" content="contato@filipelampejo.cc" />
+
+			{/* WEB APP */}
+			<meta name="apple-mobile-web-app-capable" content="yes" />
+			<meta
+				name="apple-mobile-web-app-status-bar-style"
+				content="black-translucent"
+			/>
+			<link rel="apple-touch-startup-image" href="/splash.png" />
 
 			{/* FAVICONS */}
 			<link rel="icon" href="/favicons/favicon-32.png" sizes="32x32" />
