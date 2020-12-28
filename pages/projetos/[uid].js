@@ -33,6 +33,7 @@ export default function Project({
 				<article className={styles.container}>
 					<Meta
 						pageTitle={project.titulo}
+						pageDesc={RichText.asText(project.sobre)}
 						pageType="article"
 						pageImage={project.capa.url}
 					/>
