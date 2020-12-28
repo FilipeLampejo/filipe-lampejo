@@ -35,7 +35,13 @@ export default function Project({
 						pageTitle={project.titulo}
 						pageDesc={RichText.asText(project.sobre)}
 						pageType="article"
-						pageImage={project.capa.url}
+						pageImage={
+							project.capa
+								? project.capa.SEO
+									? project.capa.SEO.url
+									: project.capa.url
+								: ""
+						}
 					/>
 					<header className={`${grid.col} ${styles.header}`}>
 						<h1 className={`${styles.title} ${typography.headingOne}`}>
