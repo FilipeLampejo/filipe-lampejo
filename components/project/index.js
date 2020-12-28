@@ -114,7 +114,7 @@ function ProjectListItem({ project, open, onClick }) {
 	);
 }
 
-export function ProjectList({ projects, locale }) {
+export function ProjectList({ projects }) {
 	let { t } = useTranslation();
 	const [orderBy, setOrderBy] = useState("year");
 	const [orderAsc, setOrderAsc] = useState(false);
@@ -160,27 +160,28 @@ export function ProjectList({ projects, locale }) {
 					></li>
 				</ul>
 			</li>
-			{projects
-				.sort((a, b) => {
-					if (columns[orderBy]) {
-						return columns[orderBy](a) > columns[orderBy](b)
-							? orderAsc
-								? 1
-								: -1
-							: orderAsc
-							? -1
-							: 1;
-					}
-					return 0;
-				})
-				.map((project) => (
-					<ProjectListItem
-						key={project.slug + project.lang}
-						project={project}
-						open={open === project.slug}
-						onClick={toggleOpen}
-					/>
-				))}
+			{projects &&
+				projects
+					.sort((a, b) => {
+						if (columns[orderBy]) {
+							return columns[orderBy](a) > columns[orderBy](b)
+								? orderAsc
+									? 1
+									: -1
+								: orderAsc
+								? -1
+								: 1;
+						}
+						return 0;
+					})
+					.map((project) => (
+						<ProjectListItem
+							key={project.slug + project.lang}
+							project={project}
+							open={open === project.slug}
+							onClick={toggleOpen}
+						/>
+					))}
 		</ul>
 	);
 }

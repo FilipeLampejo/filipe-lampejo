@@ -11,11 +11,8 @@ import { useRouter } from "next/router";
 export default function Projetos({ projects, lang }) {
 	let { t } = useTranslation();
 	const { locale } = useRouter();
-	const { data, error } = useSWR(`project/${locale}`, fetcher, {
-		initialData: projects,
-	});
-	if (error) return "An error has occurred.";
-	if (!data) return "Loading...";
+	const { data } = useSWR(`project/${locale}`, fetcher);
+
 	return (
 		<Layout>
 			<Meta pageTitle={t("common:menu.projects")} />
@@ -36,30 +33,30 @@ async function fetcher(input) {
 	return projects;
 }
 
-export async function getServerSideProps({
-	// preview,
-	// previewData,
-	locale,
-	// locales,
-}) {
-	const projects = await fetcher(`project/${locale}`);
-	if (projects) {
-		return {
-			props: {
-				projects,
-				lang: {
-					locale,
-				},
-			},
-		};
-	} else {
-		return {
-			props: {
-				projects: [],
-				lang: {
-					locale,
-				},
-			},
-		};
-	}
-}
+// export async function getServerSideProps({
+// 	// preview,
+// 	// previewData,
+// 	locale,
+// 	// locales,
+// }) {
+// 	const projects = await fetcher(`project/${locale}`);
+// 	if (projects) {
+// 		return {
+// 			props: {
+// 				projects,
+// 				lang: {
+// 					locale,
+// 				},
+// 			},
+// 		};
+// 	} else {
+// 		return {
+// 			props: {
+// 				projects: [],
+// 				lang: {
+// 					locale,
+// 				},
+// 			},
+// 		};
+// 	}
+// }
