@@ -102,6 +102,7 @@ export async function getStaticProps({
 
 	if (doc) {
 		return {
+			revalidate: 60,
 			props: {
 				// menu,
 				doc: doc ? doc : {},
