@@ -5,19 +5,19 @@ import styles from "./styles.module.scss";
 import grid from "../../styles/grid.module.scss";
 import typography from "../../styles/typography.module.scss";
 
+import { localeToNext } from "../../utils/prismicHelpers";
 import Button from "../button";
 import useTranslation from "next-translate/useTranslation";
 
-const LangPicker = () => {
-	let router = useRouter();
+const LangPicker = ({ langs, current, asPath }) => {
 	let { t } = useTranslation();
 	return (
 		<ul className={`${styles.langPicker} ${typography.smcp}`}>
-			{router.locales.map((locale) => (
+			{langs.map((locale) => (
 				<li className={`${styles.locale}`} key={locale}>
 					<Button
-						active={locale == router.locale}
-						href={router.asPath}
+						active={locale == current}
+						href={asPath}
 						locale={locale}
 						type="lang"
 					>
@@ -29,14 +29,17 @@ const LangPicker = () => {
 	);
 };
 
-export default function Navbar() {
-	const { asPath } = useRouter();
+export default function Navbar({
+	altLangs = [{ lang: "pt-br" }, { lang: "en-gb" }],
+}) {
+	const router = useRouter();
 	let { t } = useTranslation();
 	const menuItems = {
 		sobre: t("common:menu.about"),
 		projetos: t("common:menu.projects"),
 		contato: t("common:menu.contact"),
 	};
+	const altLocales = altLangs.map((lang) => localeToNext(lang.lang));
 
 	return (
 		<aside className={`${styles.navbar} ${grid.col}`}>
@@ -45,18 +48,27 @@ export default function Navbar() {
 					const href = `/${key}`;
 					return (
 						<li key={key} className={styles.item}>
-							<Button href={href} active={asPath === href} type="link">
+							<Button href={href} active={router.asPath === href} type="link">
 								{value}
 							</Button>
 						</li>
 					);
 				})}
 				<li className={`${styles.item}`} key="lang">
-					<LangPicker />
+					<LangPicker
+						langs={router.locales.filter(
+							(locale) =>
+								locale === router.locale || altLocales.includes(locale)
+						)}
+						current={router.locale}
+						asPath={router.asPath}
+					/>
 				</li>
 				<li
 					key="logo"
-					className={`${styles.logo} ${asPath === "/" ? styles.hidden : ""}`}
+					className={`${styles.logo} ${
+						router.asPath === "/" ? styles.hidden : ""
+					}`}
 				>
 					<Button href="/" type="link">
 						{t("common:title")}

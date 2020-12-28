@@ -2,6 +2,7 @@ import { manageLocal } from "../utils/prismicHelpers";
 import { queryRepeatableDocuments } from "../utils/queries";
 
 import Meta from "../components/meta";
+import Layout from "../components/layout";
 
 import useTranslation from "next-translate/useTranslation";
 import { ProjectList } from "../components/project";
@@ -9,10 +10,10 @@ import { ProjectList } from "../components/project";
 export default function Projetos({ projects, lang }) {
 	let { t } = useTranslation();
 	return (
-		<>
+		<Layout>
 			<Meta pageTitle={t("common:menu.projects")} />
 			<ProjectList projects={projects} locale={lang.currentLang} />
-		</>
+		</Layout>
 	);
 }
 

@@ -44,3 +44,19 @@ export const manageLocal = (Locales, locale) => {
 
 	return { mainLanguage, currentLang, isMyMainLanguage };
 };
+
+export const localeToPrismic = (locale) => {
+	const langs = {
+		"pt-BR": "pt-br",
+		en: "en-gb",
+	};
+	return langs[locale] || langs[0];
+};
+
+export const localeToNext = (locale) => {
+	const langs = {
+		"pt-br": "pt-BR",
+		"en-gb": "en",
+	};
+	return langs[locale] || langs[0];
+};

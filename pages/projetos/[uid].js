@@ -10,9 +10,14 @@ import typography from "../../styles/typography.module.scss";
 import Meta from "../../components/meta";
 // import { useRouter } from "next/router";
 import SliceMachine from "../../components/sliceMachine";
+import Layout from "../../components/layout";
 
 import { queryRepeatableDocuments } from "../../utils/queries";
-import { Client, manageLocal } from "../../utils/prismicHelpers";
+import {
+	Client,
+	localeToNext,
+	localeToPrismic,
+} from "../../utils/prismicHelpers";
 // import useUpdatePreviewRef from "../../utils/hooks/useUpdatePreviewRef";
 
 export default function Project({
@@ -24,37 +29,47 @@ export default function Project({
 		// useUpdatePreviewRef(preview, doc.id);
 		const project = doc.data;
 		return (
-			<article className={styles.container}>
-				<Meta pageTitle={project.titulo} />
-				<header className={`${grid.col} ${styles.header}`}>
-					<h1 className={`${styles.title} ${typography.headingOne}`}>
-						<RichText render={project.displaytitle} />
-					</h1>
-					<div className={`${styles.info} ${typography.body}`}>
-						<RichText render={project.sobre} />
-					</div>
-				</header>
-				<SliceMachine slices={project.body} />
-			</article>
+			<Layout altLangs={doc.alternate_languages}>
+				<article className={styles.container}>
+					<Meta
+						pageTitle={project.titulo}
+						pageType="article"
+						pageImage={project.capa.url}
+					/>
+					<header className={`${grid.col} ${styles.header}`}>
+						<h1 className={`${styles.title} ${typography.headingOne}`}>
+							<RichText render={project.displaytitle} />
+						</h1>
+						<div className={`${styles.info} ${typography.body}`}>
+							<RichText render={project.sobre} />
+						</div>
+					</header>
+					<SliceMachine slices={project.body} />
+				</article>
+			</Layout>
 		);
 	}
-	return <article>Couldn't load page.</article>;
+	return (
+		<Layout>
+			<article className={styles.container}>
+				Couldn't load page. This is a technical issue and not your fault at all.
+				Please contact people@penumbra.design and we'll try our best to sort it
+				out.
+			</article>
+		</Layout>
+	);
 }
 
 export async function getStaticPaths() {
 	const documents = await queryRepeatableDocuments(
 		(doc) => doc.type === "project"
 	);
-	const langs = {
-		"en-gb": "en",
-		"pt-br": "pt-BR",
-	};
 
 	return {
 		paths: documents.map((doc) => {
 			return {
 				params: { uid: doc.uid },
-				locale: langs[doc.lang],
+				locale: localeToNext(doc.lang),
 			};
 		}),
 		fallback: false,
@@ -68,10 +83,6 @@ export async function getStaticProps({
 	locale,
 	// locales,
 }) {
-	const langs = {
-		en: "en-gb",
-		"pt-BR": "pt-br",
-	};
 	// const ref = previewData ? previewData.ref : null;
 	// const isPreview = preview || false;
 	const client = Client();
@@ -79,7 +90,7 @@ export async function getStaticProps({
 		"project",
 		params.uid,
 		// ref ? { ref, lang: locale } :
-		{ lang: langs[locale] }
+		{ lang: localeToPrismic(locale) }
 	);
 	// const menu =
 	// 	(await client.getSingle(

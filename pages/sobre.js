@@ -5,6 +5,7 @@ import { Client, manageLocal } from "../utils/prismicHelpers";
 
 import { RichText } from "prismic-reactjs";
 import Placeholder from "../components/placeholder";
+import Layout from "../components/layout";
 import Image from "next/image";
 
 import grid from "../styles/grid.module.scss";
@@ -14,7 +15,7 @@ import styles from "../styles/pages/sobre.module.scss";
 export default function Sobre({ doc }) {
 	const { t } = useTranslation();
 	return (
-		<>
+		<Layout altLangs={doc.alternate_languages}>
 			<Meta pageTitle={t("common:menu.about")} />
 			{doc && doc.data && (
 				<article className={`${grid.col} ${styles.container}`}>
@@ -51,7 +52,7 @@ export default function Sobre({ doc }) {
 					</section>
 				</article>
 			)}
-		</>
+		</Layout>
 	);
 }
 

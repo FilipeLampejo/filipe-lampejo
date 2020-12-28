@@ -218,9 +218,12 @@ export default function ProjectThumb({ project, onHover }) {
 							<li key={cat.category.slug}>{cat.category.slug}</li>
 						))}
 					</ul>
-					<h2 className={`${styles.title} ${typography.headingOne}`}>
-						<RichText render={project.displaytitle} />
+					<h2 className="visually-hidden">
+						{RichText.asText(project.displaytitle)}
 					</h2>
+					<div className={`${styles.title} ${typography.headingOne}`}>
+						<RichText render={project.displaytitle} />
+					</div>
 				</div>
 			</a>
 		</Link>

@@ -1,5 +1,4 @@
-import { manageLocal } from "../utils/prismicHelpers";
-import { queryRepeatableDocuments } from "../utils/queries";
+import { Client, manageLocal, localeToPrismic } from "../utils/prismicHelpers";
 
 import Meta from "../components/meta";
 import ProjectThumb from "../components/project";
@@ -8,76 +7,81 @@ import Hero from "../components/hero";
 import styles from "../styles/pages/home.module.scss";
 import grid from "../styles/grid.module.scss";
 
+import Layout from "../components/layout";
+
 import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
+import { RichText } from "prismic-reactjs";
 
-export default function Home({ projects, lang }) {
+export default function Home({ doc, lang }) {
 	let { t } = useTranslation();
 	const [heroInvisible, setHeroInvisible] = useState(false);
 
-	return (
-		<>
-			<Meta />
-			<Hero
-				title={t("common:title")}
-				desc={t("common:desc")}
-				invisible={heroInvisible}
-			/>
-			<section className={`${styles.projectList} ${grid.inner}`}>
-				{projects.map((project) => (
-					<div key={project.slug} className={styles.project}>
-						<ProjectThumb
-							onHover={(newState) => setHeroInvisible(newState)}
-							project={project}
-						/>
-					</div>
-				))}
-			</section>
-		</>
-	);
+	if (doc && doc.data) {
+		return (
+			<Layout altLangs={doc.alternate_languages}>
+				<Meta
+					pageTitle={t("common:portfolio")}
+					pageDesc={RichText.asText(doc.data.bio)}
+				/>
+				<Hero
+					title={doc.data.titulo}
+					desc={<RichText render={doc.data.bio} />}
+					invisible={heroInvisible}
+				/>
+				<section className={`${styles.projectList} ${grid.inner}`}>
+					{doc.data.projetos.map((p, i) => {
+						const project = p.projeto;
+						return (
+							<div key={project.slug} className={styles.project}>
+								<ProjectThumb
+									onHover={(newState) => setHeroInvisible(newState)}
+									project={{ ...project.data, slug: project.slug }}
+								/>
+							</div>
+						);
+					})}
+				</section>
+			</Layout>
+		);
+	} else {
+		return <Meta pageTitle={t("common:portfolio")} />;
+	}
 }
 
 export async function getStaticProps({
-	// preview,
-	// previewData,
+	preview,
+	previewData,
 	locale,
 	locales,
 }) {
-	// const ref = previewData ? previewData.ref : null;
-	// const isPreview = preview || false;
+	const ref = previewData ? previewData.ref : null;
+	const isPreview = preview || false;
+
+	const client = Client();
+	const doc =
+		(await client.getSingle("home", {
+			lang: localeToPrismic(locale),
+			fetchLinks: [
+				"project.capa",
+				"project.displaytitle",
+				"project.categories",
+			],
+		})) || {};
 
 	const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
 
-	const documents = await queryRepeatableDocuments(
-		(doc) =>
-			doc.type === "project" && doc.lang.slice(0, 2) === currentLang.slice(0, 2)
-	);
-
-	const projects = documents.map((p) => {
-		return { ...p.data, slug: p.uid, lang: p.lang };
-	});
-
-	projects.sort((a, b) => {
-		if (a.date < b.date) {
-			return 1;
-		} else {
-			return -1;
-		}
-	});
-
-	if (projects) {
-		return {
-			props: {
-				projects,
-				// preview: {
-				// 	isActive: isPreview,
-				// 	activeRef: ref,
-				// },
-				lang: {
-					currentLang,
-					isMyMainLanguage,
-				},
+	return {
+		props: {
+			doc,
+			preview: {
+				isActive: isPreview,
+				activeRef: ref,
 			},
-		};
-	}
+			lang: {
+				currentLang,
+				isMyMainLanguage,
+			},
+		},
+	};
 }

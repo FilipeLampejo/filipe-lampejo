@@ -4,6 +4,7 @@ import Meta from "../components/meta";
 import { Client, manageLocal } from "../utils/prismicHelpers";
 
 import { RichText } from "prismic-reactjs";
+import Layout from "../components/layout";
 
 import grid from "../styles/grid.module.scss";
 import typography from "../styles/typography.module.scss";
@@ -12,7 +13,7 @@ import styles from "../styles/pages/contato.module.scss";
 export default function Contato({ doc }) {
 	const { t } = useTranslation();
 	return (
-		<>
+		<Layout altLangs={doc.alternate_languages}>
 			{doc && doc.data && (
 				<article className={`${grid.col} ${styles.container}`}>
 					<Meta pageTitle={t("common:menu.contact")} />
@@ -32,7 +33,7 @@ export default function Contato({ doc }) {
 					</section>
 				</article>
 			)}
-		</>
+		</Layout>
 	);
 }
 
