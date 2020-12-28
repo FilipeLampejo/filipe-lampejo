@@ -21,19 +21,17 @@ export default function Meta({ pageTitle, pageDesc, pageType, pageImage }) {
 			<meta name="designer" content="Penumbra design et web" />
 			<meta name="robots" content="index,follow" />
 			<link rel="canonical" href={`https://filipelampejo.cc${asPath}`} />
-			<meta name="og:url" href={`https://filipelampejo.cc${asPath}`} />
+			<meta property="og:url" href={`https://filipelampejo.cc${asPath}`} />
 			<link rel="icon" href="/favicon.svg" />
 			<link rel="mask-icon" href="/favicon.svg" color="#000000" />
 			<link rel="apple-touch-icon" href="/favicon.png" />
 			<link rel="manifest" href="/manifest.json" />
 			<meta property="og:title" content={tabInfo.title} />
-			<meta property="og:type" content="website" />
 			<meta property="og:description" content={tabInfo.desc} />
 			<meta name="description" content={tabInfo.desc} />
-			<meta name="og:title" content={tabInfo.title} />
-			{pageImage && <meta name="og:image" content={pageImage} />}
+			{pageImage && <meta property="og:image" content={pageImage} />}
 			<meta name="twitter:card" content="summary_large_image" />
-			<meta name="og:type" content={pageType || "website"} />
+			<meta property="og:type" content={pageType || "website"} />
 			<meta name="og:email" content="contato@filipelampejo.cc" />
 			<link rel="icon" href="/favicon.ico" />
 		</Head>
