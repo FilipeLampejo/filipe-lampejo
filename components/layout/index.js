@@ -6,7 +6,7 @@ export default function Layout({ children, footer, altLangs }) {
 		<>
 			<Navbar altLangs={altLangs} />
 			<main>{children}</main>
-			<Footer data={footer.data} />
+			{footer && <Footer data={footer.data} />}
 		</>
 	);
 }
