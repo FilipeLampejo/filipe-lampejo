@@ -4,9 +4,10 @@
 	"desc": "Portfolio of graphic designer Filipe Lampejo.",
 	"menu": {
 		"about": "About",
-		"contact": "Contact",
+		"instagram": "Instagram",
 		"projects": "Projects"
 	},
+	"colophon": "Colophon",
 	"fichaTecnica": "Project specifics",
 	"premiacoes": "Prizes",
 	"locales": {

@@ -7,9 +7,11 @@ import Layout from "../components/layout";
 import useTranslation from "next-translate/useTranslation";
 import { ProjectList } from "../components/project";
 import { useRouter } from "next/router";
+import { Client, localeToPrismic } from "../utils/prismicHelpers";
 
-export default function Projetos({ projects, lang }) {
+export default function Projetos({ footer }) {
 	let { t } = useTranslation();
+
 	const { locale } = useRouter();
 	const { data } = useSWR(`project/${locale}`, fetcher, {
 		revalidateOnFocus: false,
@@ -18,9 +20,9 @@ export default function Projetos({ projects, lang }) {
 	});
 
 	return (
-		<Layout>
+		<Layout footer={footer}>
 			<Meta pageTitle={t("common:menu.projects")} />
-			<ProjectList projects={data} locale={lang} />
+			<ProjectList projects={data} />
 		</Layout>
 	);
 }
@@ -37,30 +39,15 @@ async function fetcher(input) {
 	return projects;
 }
 
-// export async function getServerSideProps({
-// 	// preview,
-// 	// previewData,
-// 	locale,
-// 	// locales,
-// }) {
-// 	const projects = await fetcher(`project/${locale}`);
-// 	if (projects) {
-// 		return {
-// 			props: {
-// 				projects,
-// 				lang: {
-// 					locale,
-// 				},
-// 			},
-// 		};
-// 	} else {
-// 		return {
-// 			props: {
-// 				projects: [],
-// 				lang: {
-// 					locale,
-// 				},
-// 			},
-// 		};
-// 	}
-// }
+export async function getStaticProps({ locale }) {
+	const client = Client();
+	const footer =
+		(await client.getSingle("contato", { lang: localeToPrismic(locale) })) ||
+		{};
+
+	return {
+		props: {
+			footer,
+		},
+	};
+}

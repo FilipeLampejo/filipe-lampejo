@@ -22,6 +22,7 @@ import {
 
 export default function Project({
 	doc,
+	footer,
 	// lang,
 	// preview
 }) {
@@ -29,7 +30,7 @@ export default function Project({
 		// useUpdatePreviewRef(preview, doc.id);
 		const project = doc.data;
 		return (
-			<Layout altLangs={doc.alternate_languages}>
+			<Layout altLangs={doc.alternate_languages} footer={footer}>
 				<article className={styles.container}>
 					<Meta
 						pageTitle={project.titulo}
@@ -83,15 +84,7 @@ export async function getStaticPaths() {
 	};
 }
 
-export async function getStaticProps({
-	// preview,
-	// previewData,
-	params,
-	locale,
-	// locales,
-}) {
-	// const ref = previewData ? previewData.ref : null;
-	// const isPreview = preview || false;
+export async function getStaticProps({ params, locale }) {
 	const client = Client();
 	const doc = await client.getByUID(
 		"project",
@@ -99,27 +92,16 @@ export async function getStaticProps({
 		// ref ? { ref, lang: locale } :
 		{ lang: localeToPrismic(locale) }
 	);
-	// const menu =
-	// 	(await client.getSingle(
-	// 		"top_menu",
-	// 		ref ? { ref, lang: locale } : { lang: locale }
-	// 	)) || {};
-	// const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
+	const footer =
+		(await client.getSingle("contato", { lang: localeToPrismic(locale) })) ||
+		{};
 
 	if (doc) {
 		return {
 			revalidate: 60,
 			props: {
-				// menu,
-				doc: doc ? doc : {},
-				// preview: {
-				// 	isActive: isPreview,
-				// 	activeRef: ref,
-				// },
-				// lang: {
-				// 	currentLang,
-				// 	isMyMainLanguage,
-				// },
+				doc,
+				footer,
 			},
 		};
 	}

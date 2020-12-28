@@ -37,7 +37,7 @@ export default function Navbar({
 	const menuItems = {
 		sobre: t("common:menu.about"),
 		projetos: t("common:menu.projects"),
-		contato: t("common:menu.contact"),
+		instagram: t("common:menu.instagram"),
 	};
 	const altLocales = altLangs.map((lang) => localeToNext(lang.lang));
 
@@ -45,7 +45,10 @@ export default function Navbar({
 		<aside className={`${styles.navbar} ${grid.col}`}>
 			<ul className={`${styles.menu}`}>
 				{Object.entries(menuItems).map(([key, value]) => {
-					const href = `/${key}`;
+					const href =
+						key === "instagram"
+							? "https://instagram.com/filipe_lampejo"
+							: `/${key}`;
 					return (
 						<li key={key} className={styles.item}>
 							<Button href={href} active={router.asPath === href} type="link">

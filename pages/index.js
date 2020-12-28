@@ -13,13 +13,13 @@ import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
 import { RichText } from "prismic-reactjs";
 
-export default function Home({ doc, lang }) {
+export default function Home({ doc, footer, lang }) {
 	let { t } = useTranslation();
 	const [heroInvisible, setHeroInvisible] = useState(false);
 
 	if (doc && doc.data) {
 		return (
-			<Layout altLangs={doc.alternate_languages}>
+			<Layout altLangs={doc.alternate_languages} footer={footer}>
 				<Meta
 					pageTitle={t("common:portfolio")}
 					pageDesc={RichText.asText(doc.data.bio)}
@@ -69,11 +69,16 @@ export async function getStaticProps({
 			],
 		})) || {};
 
+	const footer =
+		(await client.getSingle("contato", { lang: localeToPrismic(locale) })) ||
+		{};
+
 	const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
 
 	return {
 		props: {
 			doc,
+			footer,
 			preview: {
 				isActive: isPreview,
 				activeRef: ref,

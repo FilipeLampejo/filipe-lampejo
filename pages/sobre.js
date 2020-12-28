@@ -1,7 +1,7 @@
 import useTranslation from "next-translate/useTranslation";
 
 import Meta from "../components/meta";
-import { Client, manageLocal } from "../utils/prismicHelpers";
+import { Client, localeToPrismic } from "../utils/prismicHelpers";
 
 import { RichText } from "prismic-reactjs";
 import Placeholder from "../components/placeholder";
@@ -12,10 +12,10 @@ import grid from "../styles/grid.module.scss";
 import typography from "../styles/typography.module.scss";
 import styles from "../styles/pages/sobre.module.scss";
 
-export default function Sobre({ doc }) {
+export default function Sobre({ doc, footer }) {
 	const { t } = useTranslation();
 	return (
-		<Layout altLangs={doc.alternate_languages}>
+		<Layout altLangs={doc.alternate_languages} footer={footer}>
 			<Meta pageTitle={t("common:menu.about")} />
 			{doc && doc.data && (
 				<article className={`${grid.col} ${styles.container}`}>
@@ -50,32 +50,38 @@ export default function Sobre({ doc }) {
 							))}
 						</ul>
 					</section>
+					<section className={styles.contact}>
+						<h2 className="visually-hidden">{t("common:menu.contact")}</h2>
+						<ul>
+							{footer.data.contatos.map((p, index) => (
+								<li key={`contato-${index}`}>
+									<h3 className={typography.smcp}>{p.tipo}</h3>
+									<RichText render={p.conteudo} />
+								</li>
+							))}
+						</ul>
+					</section>
 				</article>
 			)}
 		</Layout>
 	);
 }
 
-export async function getStaticProps({
-	// preview,
-	// previewData,
-	locale,
-	// locales,
-}) {
-	const langs = {
-		en: "en-gb",
-		"pt-BR": "pt-br",
-	};
+export async function getStaticProps({ locale }) {
 	const client = Client();
 
-	// const { currentLang, isMyMainLanguage } = manageLocal(locales, locale);
+	const doc =
+		(await client.getSingle("sobre", { lang: localeToPrismic(locale) })) || {};
 
-	const doc = (await client.getSingle("sobre", { lang: langs[locale] })) || {};
+	const footer =
+		(await client.getSingle("contato", { lang: localeToPrismic(locale) })) ||
+		{};
 
 	if (doc) {
 		return {
 			props: {
-				doc: doc ? doc : {},
+				footer: footer,
+				doc: doc,
 			},
 		};
 	}

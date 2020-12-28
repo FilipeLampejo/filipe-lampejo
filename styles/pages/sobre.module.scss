@@ -47,3 +47,29 @@
 		font-style: italic;
 	}
 }
+
+.contact {
+	grid-column: grid-start / grid-end;
+	@include tablet {
+		grid-column: col-3 / col-8;
+	}
+	ul {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(210px, 100%), 1fr));
+		gap: var(--gutter);
+		li {
+			h3 {
+				font-size: 1rem;
+			}
+			a {
+				border-bottom: 1px solid;
+				padding-bottom: 2px;
+				margin-bottom: -3px;
+				@include on-event {
+					text-decoration: none;
+					border-color: transparent;
+				}
+			}
+		}
+	}
+}
