@@ -37,7 +37,7 @@ async function fetcher(input) {
 	return projects;
 }
 
-export async function getStaticProps({
+export async function getServerSideProps({
 	// preview,
 	// previewData,
 	locale,
