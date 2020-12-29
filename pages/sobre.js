@@ -6,7 +6,6 @@ import { Client, localeToPrismic } from "../utils/prismicHelpers";
 import { RichText } from "prismic-reactjs";
 import Placeholder from "../components/placeholder";
 import Layout from "../components/layout";
-import Image from "next/image";
 
 import grid from "../styles/grid.module.scss";
 import typography from "../styles/typography.module.scss";
@@ -21,18 +20,16 @@ export default function Sobre({ doc, footer }) {
 				<article className={`${grid.col} ${styles.container}`}>
 					{doc.data.imagem.url && (
 						<div className={styles.img}>
-							<Placeholder>
-								<Image
-									width={doc.data.imagem.dimensions.width}
-									height={doc.data.imagem.dimensions.height}
-									sizes="(max-width: 768px) 300px,
+							<Placeholder
+								width={doc.data.imagem.dimensions.width}
+								height={doc.data.imagem.dimensions.height}
+								sizes="(max-width: 768px) 300px,
 	            							600px"
-									layout="responsive"
-									quality={90}
-									src={doc.data.imagem.url}
-									alt={doc.data.imagem.alt}
-								/>
-							</Placeholder>
+								layout="responsive"
+								quality={90}
+								src={doc.data.imagem.url}
+								alt={doc.data.imagem.alt}
+							/>
 						</div>
 					)}
 					<section className={`${styles.body} ${typography.body}`}>

@@ -1,6 +1,5 @@
 import styles from "./styles.module.scss";
 import { useState } from "react";
-import Image from "next/image";
 import grid from "../../styles/grid.module.scss";
 import Placeholder from "../placeholder";
 export default function ImageCarousel({ images }) {
@@ -20,24 +19,23 @@ export default function ImageCarousel({ images }) {
 
 	return (
 		<figure className={`${styles.container} ${grid.col}`}>
-			{gallery.map((i) => (
+			{gallery.map((i, index) => (
 				<div
+					key={`slide-${index}`}
 					className={styles.image}
 					onClick={() => handleClick(images.indexOf(i))}
 				>
-					<Placeholder>
-						<Image
-							src={i.imagem.url}
-							width={i.imagem.dimensions.width}
-							height={i.imagem.dimensions.height}
-							alt={i.imagem.alt}
-							layout="responsive"
-							sizes="768px,
+					<Placeholder
+						src={i.imagem.url}
+						width={i.imagem.dimensions.width}
+						height={i.imagem.dimensions.height}
+						alt={i.imagem.alt}
+						layout="responsive"
+						sizes="768px,
 									(max-width: 768px) 768px,
 									(max-width: 1920px) 1366px,
 									1920px"
-						/>
-					</Placeholder>
+					/>
 				</div>
 			))}
 			<figcaption className={styles.counter}>

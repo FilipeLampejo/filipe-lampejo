@@ -8,7 +8,6 @@ import Link from "next/link";
 
 import { useSpring, animated as a } from "react-spring";
 import Placeholder from "../placeholder";
-import Image from "next/image";
 
 import Year from "../date";
 import { useState, useEffect, useRef } from "react";
@@ -85,22 +84,20 @@ function ProjectListItem({ project, open, onClick }) {
 					{project.capa.url && (
 						<Link href={`/projetos/${project.slug}`}>
 							<a>
-								<Placeholder>
-									{project.capa.url && (
-										<Image
-											width={1200}
-											height={
-												1200 /
-												(project.capa.dimensions.width /
-													project.capa.dimensions.height)
-											}
-											layout="responsive"
-											sizes="(max-width: 768px) 150px,
+								{project.capa.url && (
+									<Placeholder
+										width={1200}
+										height={
+											1200 /
+											(project.capa.dimensions.width /
+												project.capa.dimensions.height)
+										}
+										layout="responsive"
+										sizes="(max-width: 768px) 150px,
 	            							300px"
-											src={project.capa.url}
-										/>
-									)}
-								</Placeholder>
+										src={project.capa.url}
+									/>
+								)}
 							</a>
 						</Link>
 					)}
@@ -208,21 +205,18 @@ export default function ProjectThumb({ project, onHover }) {
 			>
 				{project.capa.url && (
 					<div className={styles.thumb}>
-						<Placeholder>
-							<Image
-								width={600}
-								height={
-									600 /
-									(project.capa.dimensions.width /
-										project.capa.dimensions.height)
-								}
-								sizes="(max-width: 768px) 150px,
+						<Placeholder
+							width={600}
+							height={
+								600 /
+								(project.capa.dimensions.width / project.capa.dimensions.height)
+							}
+							sizes="(max-width: 768px) 150px,
             							300px"
-								layout="responsive"
-								src={project.capa.url}
-								alt={project.capa.alt}
-							/>
-						</Placeholder>
+							layout="responsive"
+							src={project.capa.url}
+							alt={project.capa.alt}
+						/>
 					</div>
 				)}
 				<div className={`${styles.info}`}>

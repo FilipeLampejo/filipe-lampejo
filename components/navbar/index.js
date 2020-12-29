@@ -29,6 +29,17 @@ const LangPicker = ({ langs, current, asPath }) => {
 	);
 };
 
+const External = () => (
+	<span
+		style={{
+			display: "inline-block",
+			transform: "rotate(-45deg)",
+		}}
+	>
+		->
+	</span>
+);
+
 export default function Navbar({
 	altLangs = [{ lang: "pt-br" }, { lang: "en-gb" }],
 }) {
@@ -53,6 +64,7 @@ export default function Navbar({
 						<li key={key} className={styles.item}>
 							<Button href={href} active={router.asPath === href} type="link">
 								{value}
+								{key === "instagram" ? <External /> : ""}
 							</Button>
 						</li>
 					);

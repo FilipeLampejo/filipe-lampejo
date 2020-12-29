@@ -5,7 +5,6 @@ import styles from "./styles.module.scss";
 import { RichText } from "prismic-reactjs";
 
 import Placeholder from "../placeholder";
-import Image from "next/image";
 import FichaTecnica from "../fichaTecnica";
 import ImageCarousel from "../imageCarousel";
 
@@ -30,19 +29,17 @@ const SliceImage = ({ primary }) => (
 			styles[`align--${primary.alinhamento}`]
 		}`}
 	>
-		<Placeholder>
-			<Image
-				src={primary.imagem.url}
-				width={primary.imagem.dimensions.width}
-				height={primary.imagem.dimensions.height}
-				alt={primary.imagem.alt}
-				layout="responsive"
-				sizes="768px,
+		<Placeholder
+			src={primary.imagem.url}
+			width={primary.imagem.dimensions.width}
+			height={primary.imagem.dimensions.height}
+			alt={primary.imagem.alt}
+			layout="responsive"
+			sizes="768px,
 						(max-width: 768px) 768px,
 						(max-width: 1920px) 1366px,
 						1920px"
-			/>
-		</Placeholder>
+		/>
 	</section>
 );
 

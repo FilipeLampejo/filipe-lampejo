@@ -33,7 +33,7 @@ export default function Home({ doc, footer, lang }) {
 					{doc.data.projetos.map((p, i) => {
 						const project = p.projeto;
 						return (
-							<div key={project.slug} className={styles.project}>
+							<div key={project.slug + i} className={styles.project}>
 								<ProjectThumb
 									onHover={(newState) => setHeroInvisible(newState)}
 									project={{ ...project.data, slug: project.uid }}
