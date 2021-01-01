@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./styles.module.scss";
 import useTranslation from "next-translate/useTranslation";
-import typography from "../../styles/typography.module.scss";
 
 export default function FichaTecnica({ items }) {
 	let { t } = useTranslation();
