@@ -1,5 +1,7 @@
 import { queryRepeatableDocuments } from "./queries";
 import { mutate } from "swr";
+import { Client } from "./prismicHelpers";
+import { localeToPrismic } from "./prismicHelpers";
 
 export async function fetcher(input) {
 	const [docType, locale] = input.split("/");
@@ -12,12 +14,30 @@ export async function fetcher(input) {
 	return projects;
 }
 
-export function fetchAndCache(key) {
+export async function indexFetcher(locale) {
+	const client = Client();
+	return (
+		(await client.getSingle("home", {
+			lang: localeToPrismic(locale),
+			fetchLinks: [
+				"project.capa",
+				"project.displaytitle",
+				"project.categories",
+			],
+		})) || {}
+	);
+}
+
+export function fetchAndCache(key, fetcher) {
 	const request = fetcher(key);
 	mutate(key, request, false);
 	return request;
 }
 
 export function getProjects(locale) {
-	return fetchAndCache(`project/${locale}`);
+	return fetchAndCache(`project/${locale}`, fetcher);
+}
+
+export function getHomeIndex(locale) {
+	return fetchAndCache(locale, indexFetcher);
 }

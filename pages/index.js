@@ -13,7 +13,13 @@ import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
 import { RichText } from "prismic-reactjs";
 
-export default function Home({ doc, footer, lang }) {
+import { useHomeIndex } from "../utils/hooks/useHomeIndex";
+
+export default function Home({ doc, footer }) {
+	const { data } = useHomeIndex();
+	const projects = data
+		? data.data.projetos
+		: [{ projeto: { data: null, uid: "" } }];
 	let { t } = useTranslation();
 	const [heroInvisible, setHeroInvisible] = useState(false);
 
@@ -30,10 +36,10 @@ export default function Home({ doc, footer, lang }) {
 					invisible={heroInvisible}
 				/>
 				<section className={`${styles.projectList} ${grid.inner}`}>
-					{doc.data.projetos.map((p, i) => {
+					{projects.map((p, i) => {
 						const project = p.projeto;
 						return (
-							<div key={project.slug + i} className={styles.project}>
+							<div key={project.uid + i} className={styles.project}>
 								<ProjectThumb
 									onHover={(newState) => setHeroInvisible(newState)}
 									project={{ ...project.data, slug: project.uid }}
@@ -62,11 +68,6 @@ export async function getStaticProps({
 	const doc =
 		(await client.getSingle("home", {
 			lang: localeToPrismic(locale),
-			fetchLinks: [
-				"project.capa",
-				"project.displaytitle",
-				"project.categories",
-			],
 		})) || {};
 
 	const footer =

@@ -196,40 +196,48 @@ export function ProjectList({ projects }) {
 }
 
 export default function ProjectThumb({ project, onHover }) {
+	const skeleton = {
+		capa: {
+			dimensions: {
+				width: 1000,
+				height: 600,
+			},
+			url:
+				"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==",
+			alt: "",
+		},
+		categories: [],
+		displaytitle: "",
+	};
+	const data = project.slug ? project : skeleton;
+
 	return (
-		<Link href={`/projetos/${project.slug}`}>
+		<Link href={`/projetos/${data.slug}`}>
 			<a
 				className={styles.project}
 				onMouseEnter={() => onHover(true)}
 				onMouseLeave={() => onHover(false)}
 			>
-				{project.capa.url && (
-					<div className={styles.thumb}>
-						<Placeholder
-							width={600}
-							height={
-								600 /
-								(project.capa.dimensions.width / project.capa.dimensions.height)
-							}
-							sizes="(max-width: 768px) 150px,
+				<div className={styles.thumb}>
+					<Placeholder
+						width={data.capa.dimensions.width}
+						height={data.capa.dimensions.height}
+						sizes="(max-width: 768px) 150px,
             							300px"
-							layout="responsive"
-							src={project.capa.url}
-							alt={project.capa.alt}
-						/>
-					</div>
-				)}
+						layout="responsive"
+						src={data.capa.url}
+						alt={data.capa.alt}
+					/>
+				</div>
+
 				<div className={`${styles.info}`}>
 					<ul className={`${styles.categories} ${typography.smcp}`}>
-						{project.categories.map((cat) => (
+						{data.categories.map((cat) => (
 							<li key={cat.category.slug}>{cat.category.slug}</li>
 						))}
 					</ul>
-					<h2 className="visually-hidden">
-						{RichText.asText(project.displaytitle)}
-					</h2>
 					<div className={`${styles.title} ${typography.headingOne}`}>
-						<RichText render={project.displaytitle} />
+						<RichText render={data.displaytitle} />
 					</div>
 				</div>
 			</a>
