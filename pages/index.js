@@ -39,12 +39,16 @@ export default function Home({ doc, footer }) {
 					{projects.map((p, i) => {
 						const project = p.projeto;
 						return (
-							<div key={project.uid + i} className={styles.project}>
-								<ProjectThumb
-									onHover={(newState) => setHeroInvisible(newState)}
-									project={{ ...project.data, slug: project.uid }}
-								/>
-							</div>
+							<ProjectThumb
+								key={project.uid + i}
+								onHover={(newState) => setHeroInvisible(newState)}
+								project={{ ...project.data, slug: project.uid }}
+								layoutInfo={{
+									colstart: p.colstart,
+									colend: p.colend,
+									marginbottom: p.mbottom,
+								}}
+							/>
 						);
 					})}
 				</section>

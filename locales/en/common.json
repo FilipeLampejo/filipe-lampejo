@@ -14,8 +14,8 @@
 		"pt-BR": "PT",
 		"en": "EN"
 	},
-	"footer": {
-		"credits": "design + code:",
+	"credits": {
+		"website": "Website",
 		"author": "Penumbra"
 	}
 }

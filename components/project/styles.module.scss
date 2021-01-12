@@ -1,6 +1,13 @@
 @import "../../styles/abstracts/mixins";
 
 .project {
+	grid-column: grid-start / grid-end;
+	@include tablet {
+		grid-column: var(--project__colStart, grid-start) /
+			var(--project__colEnd, grid-end);
+		margin-bottom: calc(var(--project__marginBottom, 0) * 1rem);
+	}
+
 	.info {
 		display: flex;
 		@include tablet {

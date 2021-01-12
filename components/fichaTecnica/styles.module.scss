@@ -1,3 +1,4 @@
+@import "../../styles/abstracts/mixins";
 .ficha {
 	display: grid;
 	grid-template-columns: min-content 1fr;
@@ -15,6 +16,13 @@
 	}
 	dd {
 		grid-column: 1;
+	}
+	a {
+		border-bottom: 1px solid;
+		@include on-event {
+			text-decoration: none;
+			border-color: transparent;
+		}
 	}
 }
 

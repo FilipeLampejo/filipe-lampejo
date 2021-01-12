@@ -14,8 +14,8 @@
 		"pt-BR": "PT",
 		"en": "EN"
 	},
-	"footer": {
-		"credits": "contato@filipelampejo.cc — +55 31 99503 9502 — ig @filipe_lampejo — design + código:",
+	"credits": {
+		"website": "Website por",
 		"author": "Penumbra"
 	}
 }

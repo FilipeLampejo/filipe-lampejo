@@ -17,6 +17,12 @@ export default function Footer({ data }) {
 							<RichText render={p.conteudo} />
 						</li>
 					))}
+				<li key={`contato-penumbra`}>
+					<h3 className={typography.smcp}>{t("common:credits.website")}</h3>
+					<a href="https://penumbra.design/?ref=filipe-lampejo" target="_blank">
+						{t("common:credits.author")}
+					</a>
+				</li>
 			</ul>
 		</footer>
 	);

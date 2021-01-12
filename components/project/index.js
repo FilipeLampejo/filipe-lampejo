@@ -18,7 +18,7 @@ const columns = {
 	category: (project) =>
 		project.categories.map((cat) => cat.category.slug).join(", "),
 	client: (project) => project.client,
-	project: (project) => project.titulo,
+	project: (project) => RichText.asText(project.displaytitle),
 	agency: (project) => project.agency,
 };
 
@@ -41,12 +41,10 @@ function ProjectListItem({ project, open, onClick }) {
 	const displayColumns = {
 		year: (text) => (text ? <Year dateString={text} /> : false),
 		category: (categories) =>
-			categories && typeof categories === "array" ? (
-				<ul className={`${styles.categories} ${typography.smcp}`}>
-					{categories.map((cat) => (
-						<li key={cat.category.slug}>{cat.category.slug}</li>
-					))}
-				</ul>
+			categories ? (
+				<span className={`${styles.categories} ${typography.smcp}`}>
+					{categories}
+				</span>
 			) : (
 				false
 			),
@@ -122,38 +120,47 @@ export function ProjectList({ projects }) {
 	const [orderBy, setOrderBy] = useState("year");
 	const [orderAsc, setOrderAsc] = useState(false);
 	const [open, setOpen] = useState();
-	const [sortedProjects, setSortedProjects] = useState(projects);
+	const [sortedProjects, setSortedProjects] = useState(
+		getSortedTable(projects, { orderAsc, orderBy })
+	);
+	useEffect(
+		() => setSortedProjects(getSortedTable(projects, { orderAsc, orderBy })),
+		[projects]
+	);
+
 	const toggleOpen = (slug) => {
 		open === slug ? setOpen(null) : setOpen(slug);
 	};
 
-	useEffect(() => sortTable(projects, { orderAsc, orderBy }), [projects]);
-
 	const reorderTable = (col) => {
 		if (col == orderBy) {
 			setOrderAsc(!orderAsc);
-			sortTable(sortedProjects, { orderAsc: !orderAsc, orderBy: col });
+			setSortedProjects(
+				getSortedTable(sortedProjects, { orderAsc: !orderAsc, orderBy: col })
+			);
 		} else {
 			setOrderAsc(true);
 			setOrderBy(col);
-			sortTable(sortedProjects, { orderAsc: true, orderBy: col });
+			setSortedProjects(
+				getSortedTable(sortedProjects, { orderAsc: true, orderBy: col })
+			);
 		}
 	};
 
-	const sortTable = (input, { orderAsc, orderBy }) => {
-		input &&
-			setSortedProjects(
-				input.sort((pa, pb) => {
-					const a = columns[orderBy](pa);
-					const b = columns[orderBy](pb);
-					const multiplier = orderAsc ? 1 : -1;
-					if (a === b) return 0;
-					else if (a === null) return 1;
-					else if (b === null) return -1;
-					else return a.localeCompare(b) * multiplier;
-				})
-			);
-	};
+	function getSortedTable(input, { orderAsc, orderBy }) {
+		return (
+			input &&
+			input.sort((pa, pb) => {
+				const a = columns[orderBy](pa);
+				const b = columns[orderBy](pb);
+				const multiplier = orderAsc ? 1 : -1;
+				if (a === b) return 0;
+				else if (a === null) return 1;
+				else if (b === null) return -1;
+				else return a.localeCompare(b) * multiplier;
+			})
+		);
+	}
 
 	return (
 		<ul className={`${styles.list}`}>
@@ -195,7 +202,7 @@ export function ProjectList({ projects }) {
 	);
 }
 
-export default function ProjectThumb({ project, onHover }) {
+export default function ProjectThumb({ project, layoutInfo, onHover }) {
 	const skeleton = {
 		capa: {
 			dimensions: {
@@ -210,10 +217,14 @@ export default function ProjectThumb({ project, onHover }) {
 		displaytitle: "",
 	};
 	const data = project.slug ? project : skeleton;
-
 	return (
 		<Link href={`/projetos/${data.slug}`}>
 			<a
+				style={{
+					"--project__colStart": layoutInfo.colstart,
+					"--project__colEnd": layoutInfo.colend,
+					"--project__marginBottom": layoutInfo.marginbottom,
+				}}
 				className={styles.project}
 				onMouseEnter={() => onHover(true)}
 				onMouseLeave={() => onHover(false)}
@@ -223,10 +234,12 @@ export default function ProjectThumb({ project, onHover }) {
 						width={data.capa.dimensions.width}
 						height={data.capa.dimensions.height}
 						sizes="(max-width: 768px) 150px,
-            							300px"
+								(max-width: 1920px) 300px,
+								600px"
 						layout="responsive"
 						src={data.capa.url}
 						alt={data.capa.alt}
+						quality={90}
 					/>
 				</div>
 
@@ -237,7 +250,7 @@ export default function ProjectThumb({ project, onHover }) {
 						))}
 					</ul>
 					<div className={`${styles.title} ${typography.headingOne}`}>
-						<RichText render={data.displaytitle} />
+						{data.displaytitle && <RichText render={data.displaytitle} />}
 					</div>
 				</div>
 			</a>

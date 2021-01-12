@@ -30,14 +30,16 @@ const LangPicker = ({ langs, current, asPath }) => {
 };
 
 const External = () => (
-	<span
-		style={{
-			display: "inline-block",
-			transform: "rotate(-45deg)",
-		}}
+	<svg
+		style={{ marginLeft: ".25em" }}
+		version="1.1"
+		xmlns="http://www.w3.org/2000/svg"
+		width="9px"
+		height="9px"
+		viewBox="0 0 404 404"
 	>
-		->
-	</span>
+		<path d="M387.2,24.2l17,288l-30,1.3l-54.8-205.7L65.9,404.2L0,338.9l296.4-254l-205-54.2L92.7,0L380,17L387.2,24.2z" />
+	</svg>
 );
 
 export default function Navbar({

@@ -45,11 +45,12 @@ export default function Project({
 						}
 					/>
 					<header className={`${grid.col} ${styles.header}`}>
-						<h1 className={`${styles.title} ${typography.headingOne}`}>
-							<RichText render={project.displaytitle} />
-						</h1>
-						<div className={`${styles.info} ${typography.body}`}>
-							<RichText render={project.sobre} />
+						<div className={`${styles.title} ${typography.headingOne}`}>
+							{project.displaytitle ? (
+								<RichText render={project.displaytitle} />
+							) : (
+								<h1>{project.titulo}</h1>
+							)}
 						</div>
 					</header>
 					<SliceMachine slices={project.body} />
@@ -105,4 +106,5 @@ export async function getStaticProps({ params, locale }) {
 			},
 		};
 	}
+	return { revalidate: 10, props: { doc: [], footer: [] } };
 }
