@@ -11,8 +11,8 @@ export default function Layout({ children, footer, altLangs }) {
 	return (
 		<>
 			<Head>
-				<link rel="preload" href="/fonts/Antwerp-Light.woff" />
-				<link rel="preload" href="/fonts/Antwerp-LightItalic.woff" />
+				<link rel="preload" href="/fonts/Antwerp-Light.woff" as="font" />
+				<link rel="preload" href="/fonts/Antwerp-LightItalic.woff" as="font" />
 			</Head>
 			<Navbar altLangs={altLangs} />
 			<main>{children}</main>
