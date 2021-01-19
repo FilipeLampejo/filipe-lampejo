@@ -31,8 +31,8 @@ const SliceImage = ({ primary }) => (
 	>
 		<Placeholder
 			src={primary.imagem.url}
-			width={primary.imagem.dimensions.width}
-			height={primary.imagem.dimensions.height}
+			width={primary.imagem.dimensions.width * 2}
+			height={primary.imagem.dimensions.height * 2}
 			alt={primary.imagem.alt}
 			layout="responsive"
 			unoptimized

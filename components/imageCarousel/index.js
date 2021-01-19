@@ -27,8 +27,8 @@ export default function ImageCarousel({ images }) {
 				>
 					<Placeholder
 						src={i.imagem.url}
-						width={i.imagem.dimensions.width}
-						height={i.imagem.dimensions.height}
+						width={i.imagem.dimensions.width * 2}
+						height={i.imagem.dimensions.height * 2}
 						alt={i.imagem.alt}
 						layout="responsive"
 						unoptimized
