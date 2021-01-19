@@ -31,7 +31,7 @@ export default function ImageCarousel({ images }) {
 						height={i.imagem.dimensions.height * 2}
 						alt={i.imagem.alt}
 						layout="responsive"
-						// unoptimized
+						unoptimized
 						sizes="768px,
 									(max-width: 768px) 1366px,
 									(max-width: 1920px) 2048px,
