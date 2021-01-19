@@ -26,17 +26,17 @@ export default function ImageCarousel({ images }) {
 					onClick={() => handleClick(images.indexOf(i))}
 				>
 					<Placeholder
-						src={i.imagem.url}
+						src={i.imagem.url.replace("?auto=compress,format", "")}
 						width={i.imagem.dimensions.width * 2}
 						height={i.imagem.dimensions.height * 2}
 						alt={i.imagem.alt}
 						layout="responsive"
-						unoptimized
 						sizes="768px,
 									(max-width: 768px) 1366px,
 									(max-width: 1920px) 2048px,
 									4096px"
 						quality={100}
+						unoptimized
 					/>
 				</div>
 			))}

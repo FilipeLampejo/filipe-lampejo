@@ -30,17 +30,17 @@ const SliceImage = ({ primary }) => (
 		}`}
 	>
 		<Placeholder
-			src={primary.imagem.url}
+			src={primary.imagem.url.replace("?auto=compress,format", "")}
 			width={primary.imagem.dimensions.width * 2}
 			height={primary.imagem.dimensions.height * 2}
 			alt={primary.imagem.alt}
 			layout="responsive"
-			unoptimized
 			sizes="768px,
 					(max-width: 768px) 1366px,
 					(max-width: 1920px) 2048px,
 					4096px"
 			quality={100}
+			unoptimized
 		/>
 	</section>
 );
