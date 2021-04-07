@@ -41,15 +41,15 @@
 				}
 			}
 			&--direita {
-				grid-column: span 8 / grid-end;
+				grid-column: grid-start / grid-end;
 				@include tablet {
-					grid-column: span 6 / grid-end;
+					grid-column: span 8 / grid-end;
 				}
 			}
 			&--centro {
-				grid-column: col-3 / col-11;
+				grid-column: grid-start / grid-end;
 				@include tablet {
-					grid-column: col-4 / col-10;
+					grid-column: col-3 / col-11;
 				}
 			}
 		}
