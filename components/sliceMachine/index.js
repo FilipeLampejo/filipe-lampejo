@@ -7,6 +7,7 @@ import { RichText } from "prismic-reactjs";
 import Placeholder from "../placeholder";
 import FichaTecnica from "../fichaTecnica";
 import ImageCarousel from "../imageCarousel";
+import VideoPlayer from "../VideoPlayer";
 
 const SliceBodyText = ({ primary }) => (
 	<section className={`${styles.sliceMd} ${typography.body}`}>
@@ -31,8 +32,8 @@ const SliceImage = ({ primary }) => (
 	>
 		<Placeholder
 			src={primary.imagem.url.replace("?auto=compress,format", "")}
-			width={primary.imagem.dimensions.width * 2}
-			height={primary.imagem.dimensions.height * 2}
+			width={primary.imagem.dimensions.width}
+			height={primary.imagem.dimensions.height}
 			alt={primary.imagem.alt}
 			layout="responsive"
 			sizes="768px,
@@ -44,6 +45,27 @@ const SliceImage = ({ primary }) => (
 		/>
 	</section>
 );
+const SliceVideo = ({ primary }) => (
+	<section
+		className={`${styles[`size--${primary.tamanho}`]} ${
+			styles[`align--${primary.alinhamento}`]
+		}`}
+	>
+		<VideoPlayer
+			src={primary.video.url}
+			width={primary.width || 1920}
+			height={primary.height || 1080}
+			layout="responsive"
+			videoProps={{
+				muted: true,
+				loop: true,
+				controls: false,
+				autoPlay: true,
+				playsInline: true,
+			}}
+		/>
+	</section>
+);
 
 export default function SliceMachine({ slices }) {
 	const outputComponents = {
@@ -51,6 +73,7 @@ export default function SliceMachine({ slices }) {
 		ficha_tecnica: SliceFichaTecnica,
 		carrossel: SliceCarousel,
 		imagem: SliceImage,
+		video_inline: SliceVideo,
 	};
 	let sliceId = 0;
 	return (

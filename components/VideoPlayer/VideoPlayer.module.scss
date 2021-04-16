@@ -1,0 +1,17 @@
+.wrapper {
+	width: 100%;
+	& > * {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		top: 0;
+		left: 0;
+		object-fit: cover;
+	}
+
+	&.responsive {
+		height: 0px;
+		padding-bottom: calc(100% / var(--aspectRatio));
+		position: relative;
+	}
+}
