@@ -91,8 +91,8 @@ function ProjectListItem({ project, open, onClick }) {
 												project.capa.dimensions.height)
 										}
 										layout="responsive"
-										sizes="(max-width: 768px) 150px,
-	            							300px"
+										sizes="(max-width: 768px) 300px,
+	            							600px"
 										src={project.capa.url}
 									/>
 								)}
