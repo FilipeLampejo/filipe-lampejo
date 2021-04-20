@@ -73,7 +73,7 @@ export default function SliceMachine({ slices }) {
 		ficha_tecnica: SliceFichaTecnica,
 		carrossel: SliceCarousel,
 		imagem: SliceImage,
-		video_inline: SliceVideo,
+		imagem1: SliceVideo,
 	};
 	let sliceId = 0;
 	return (
@@ -81,6 +81,7 @@ export default function SliceMachine({ slices }) {
 			{slices.map((slice) => {
 				sliceId++;
 				const Slice = outputComponents[slice.slice_type];
+				if (!Slice) return null;
 				return (
 					<Slice key={sliceId} primary={slice.primary} items={slice.items} />
 				);
