@@ -10,7 +10,11 @@ import ImageCarousel from "../imageCarousel";
 import VideoPlayer from "../VideoPlayer";
 
 const SliceBodyText = ({ primary }) => (
-	<section className={`${styles.sliceMd} ${typography.body}`}>
+	<section
+		className={`${styles.sliceMd} ${typography.body} ${
+			styles[`color-${primary.color || black}`]
+		}`}
+	>
 		<RichText render={primary.body_text} />
 	</section>
 );
