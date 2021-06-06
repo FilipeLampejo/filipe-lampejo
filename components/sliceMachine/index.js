@@ -61,10 +61,10 @@ const SliceVideo = ({ primary }) => (
 			height={primary.height || 1080}
 			layout="responsive"
 			videoProps={{
-				muted: true,
-				loop: true,
-				controls: false,
-				autoPlay: true,
+				muted: primary.muted || primary.autoplay,
+				loop: primary.loop,
+				controls: primary.controls,
+				autoPlay: primary.autoplay,
 				playsInline: true,
 			}}
 		/>
