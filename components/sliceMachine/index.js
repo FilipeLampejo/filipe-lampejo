@@ -12,14 +12,14 @@ import VideoPlayer from "../VideoPlayer";
 const SliceBodyText = ({ primary }) => (
 	<section
 		className={`${styles.sliceMd} ${typography.body} ${
-			styles[`color-${primary.color || black}`]
+			styles[`color-${primary.color}`] || "black"
 		}`}
 	>
 		<RichText render={primary.body_text} />
 	</section>
 );
 const SliceFichaTecnica = ({ items }) => (
-	<section className={styles.sliceSm}>
+	<section className={`${styles.sliceSm} ${styles.fichaTecnica}`}>
 		<FichaTecnica items={items} />
 	</section>
 );

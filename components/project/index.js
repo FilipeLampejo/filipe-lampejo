@@ -16,9 +16,11 @@ import useTranslation from "next-translate/useTranslation";
 const columns = {
 	year: (project) => project.date,
 	category: (project) =>
-		project.categories.map((cat) => cat.category.slug).join(", "),
-	client: (project) => project.client,
+		project.categories
+			.map((cat) => cat.category.slug?.replace("-", " "))
+			.join(", "),
 	project: (project) => RichText.asText(project.displaytitle),
+	client: (project) => project.client,
 	agency: (project) => project.agency,
 };
 
@@ -209,8 +211,7 @@ export default function ProjectThumb({ project, layoutInfo, onHover }) {
 				width: 1000,
 				height: 600,
 			},
-			url:
-				"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII=",
+			url: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII=",
 			alt: "",
 		},
 		categories: [],
@@ -239,7 +240,8 @@ export default function ProjectThumb({ project, layoutInfo, onHover }) {
 						layout="responsive"
 						src={data.capa.url}
 						alt={data.capa.alt}
-						quality={90}
+						quality={100}
+						unoptimized={true}
 					/>
 				</div>
 

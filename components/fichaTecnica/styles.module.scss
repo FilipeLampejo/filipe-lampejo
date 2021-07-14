@@ -3,9 +3,9 @@
 	display: grid;
 	grid-template-columns: min-content 1fr;
 	column-gap: var(--gutter);
+	row-gap: 1.618em;
 	padding: 0;
 	margin: 0;
-	font-style: italic;
 	margin-bottom: 1.618em;
 	dt,
 	dd {
@@ -13,6 +13,7 @@
 	}
 	dt {
 		grid-column: 2;
+		font-style: italic;
 	}
 	dd {
 		grid-column: 1;

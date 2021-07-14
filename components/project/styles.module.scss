@@ -30,7 +30,11 @@
 			}
 		}
 		.title {
+			line-height: 1;
+			margin-bottom: 0.3em;
 			@include tablet {
+				margin-bottom: 0;
+				line-height: initial;
 				color: var(--colour__accent);
 			}
 
