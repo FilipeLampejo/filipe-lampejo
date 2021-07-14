@@ -33,7 +33,7 @@ export default function Home({ doc, footer }) {
 				<Hero
 					title={doc.data.titulo}
 					desc={<RichText render={doc.data.bio} />}
-					invisible={heroInvisible}
+					invisible={heroInvisible && doc.data.hoverfx}
 				/>
 				<section className={`${styles.projectList} ${grid.inner}`}>
 					{projects.map((p, i) => {
@@ -47,6 +47,8 @@ export default function Home({ doc, footer }) {
 									colstart: p.colstart,
 									colend: p.colend,
 									marginbottom: p.mbottom,
+									image: p.image,
+									hoverfx: doc.data.hoverfx,
 								}}
 							/>
 						);

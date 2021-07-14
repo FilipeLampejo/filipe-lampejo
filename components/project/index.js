@@ -218,6 +218,8 @@ export default function ProjectThumb({ project, layoutInfo, onHover }) {
 		displaytitle: "",
 	};
 	const data = project.slug ? project : skeleton;
+	if (!data || !data.slug) return null;
+	const coverImage = layoutInfo.image.url ? layoutInfo.image : data.capa;
 	return (
 		<Link href={`/projetos/${data.slug}`}>
 			<a
@@ -231,30 +233,34 @@ export default function ProjectThumb({ project, layoutInfo, onHover }) {
 				onMouseLeave={() => onHover(false)}
 			>
 				<div className={styles.thumb}>
-					<Placeholder
-						width={data.capa.dimensions.width}
-						height={data.capa.dimensions.height}
-						sizes="(max-width: 768px) 150px,
+					{coverImage && (
+						<Placeholder
+							width={coverImage.dimensions.width}
+							height={coverImage.dimensions.height}
+							sizes="(max-width: 768px) 150px,
 								(max-width: 1920px) 300px,
 								600px"
-						layout="responsive"
-						src={data.capa.url}
-						alt={data.capa.alt}
-						quality={100}
-						unoptimized={true}
-					/>
+							layout="responsive"
+							src={coverImage.url}
+							alt={coverImage.alt}
+							quality={100}
+							unoptimized={true}
+						/>
+					)}
 				</div>
 
-				<div className={`${styles.info}`}>
-					<ul className={`${styles.categories} ${typography.smcp}`}>
-						{data.categories.map((cat) => (
-							<li key={cat.category.slug}>{cat.category.slug}</li>
-						))}
-					</ul>
-					<div className={`${styles.title} ${typography.headingOne}`}>
-						{data.displaytitle && <RichText render={data.displaytitle} />}
+				{layoutInfo.hoverfx && (
+					<div className={`${styles.info}`}>
+						<ul className={`${styles.categories} ${typography.smcp}`}>
+							{data.categories.map((cat) => (
+								<li key={cat.category.slug}>{cat.category.slug}</li>
+							))}
+						</ul>
+						<div className={`${styles.title} ${typography.headingOne}`}>
+							{data.displaytitle && <RichText render={data.displaytitle} />}
+						</div>
 					</div>
-				</div>
+				)}
 			</a>
 		</Link>
 	);

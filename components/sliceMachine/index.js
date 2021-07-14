@@ -28,6 +28,13 @@ const SliceCarousel = ({ items }) => (
 		<ImageCarousel images={items} />
 	</section>
 );
+
+const SliceDivider = ({ primary }) => (
+	<section
+		className={styles.sliceMd}
+		style={{ height: `${primary.height * 1.618}em` }}
+	></section>
+);
 const SliceImage = ({ primary }) => (
 	<section
 		className={`${styles[`size--${primary.tamanho}`]} ${
@@ -78,6 +85,7 @@ export default function SliceMachine({ slices }) {
 		carrossel: SliceCarousel,
 		imagem: SliceImage,
 		imagem1: SliceVideo,
+		divisor: SliceDivider,
 	};
 	let sliceId = 0;
 	return (
