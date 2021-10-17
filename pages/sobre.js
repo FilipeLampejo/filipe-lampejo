@@ -36,7 +36,7 @@ export default function Sobre({ doc, footer }) {
 						<RichText render={doc.data.corpo} />
 					</section>
 					<section className={styles.prizes}>
-						<h2>{t("common:premiacoes")}</h2>
+						{!!doc.data.premiacoes.length && <h2>{t("common:premiacoes")}</h2>}
 						<ul>
 							{doc.data.premiacoes.map((p, index) => (
 								<li key={`premio-${index}`}>
