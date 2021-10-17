@@ -26,7 +26,7 @@ export default function ImageCarousel({ images }) {
 					onClick={() => handleClick(images.indexOf(i))}
 				>
 					<Placeholder
-						src={i.imagem.url.replace("?auto=compress,format", "")}
+						src={i.imagem.url.replace("?auto=compress,format", "?")}
 						width={i.imagem.dimensions.width * 2}
 						height={i.imagem.dimensions.height * 2}
 						alt={i.imagem.alt}

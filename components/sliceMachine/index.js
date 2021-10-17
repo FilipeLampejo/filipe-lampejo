@@ -42,7 +42,7 @@ const SliceImage = ({ primary }) => (
 		}`}
 	>
 		<Placeholder
-			src={primary.imagem.url.replace("?auto=compress,format", "")}
+			src={primary.imagem.url.replace("?auto=compress,format", "?")}
 			width={primary.imagem.dimensions.width}
 			height={primary.imagem.dimensions.height}
 			alt={primary.imagem.alt}
