@@ -17,10 +17,14 @@
 		margin: 0;
 		a {
 			text-decoration: underline;
+			text-underline-offset: 0.3em;
 		}
 	}
 	p + p {
 		margin-top: 1.618em;
+	}
+	em {
+		font-style: italic;
 	}
 }
 
