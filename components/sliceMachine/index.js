@@ -78,6 +78,21 @@ const SliceVideo = ({ primary }) => (
 	</section>
 );
 
+const SliceEmbed = ({ primary }) => (
+	<section
+		className={`${styles[`size--${primary.tamanho}`]} ${
+			styles[`align--${primary.alinhamento}`]
+		}`}
+	>
+		<VideoPlayer
+			html={primary.embed.html}
+			width={primary.width || 1920}
+			height={primary.height || 1080}
+			layout="responsive"
+		/>
+	</section>
+);
+
 export default function SliceMachine({ slices }) {
 	const outputComponents = {
 		corpo_de_texto: SliceBodyText,
@@ -86,6 +101,7 @@ export default function SliceMachine({ slices }) {
 		imagem: SliceImage,
 		imagem1: SliceVideo,
 		divisor: SliceDivider,
+		video_embed: SliceEmbed,
 	};
 	let sliceId = 0;
 	return (
