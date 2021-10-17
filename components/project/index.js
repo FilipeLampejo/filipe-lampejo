@@ -12,12 +12,13 @@ import Placeholder from "../placeholder";
 import Year from "../date";
 import { useState, useEffect, useRef } from "react";
 import useTranslation from "next-translate/useTranslation";
+import { getCategoryNameFromSlug } from "../../utils/category";
 
 const columns = {
 	year: (project) => project.date,
 	category: (project) =>
 		project.categories
-			.map((cat) => cat.category.slug?.replace("-", " "))
+			.map(({ category }) => getCategoryNameFromSlug(category.slug))
 			.join(", "),
 	project: (project) => RichText.asText(project.displaytitle),
 	client: (project) => project.client,
@@ -50,8 +51,8 @@ function ProjectListItem({ project, open, onClick }) {
 			) : (
 				false
 			),
-		client: (text) => text || false,
 		project: (text) => text || false,
+		client: (text) => text || false,
 		agency: (text) => text || false,
 	};
 
@@ -237,14 +238,13 @@ export default function ProjectThumb({ project, layoutInfo, onHover }) {
 						<Placeholder
 							width={coverImage.dimensions.width}
 							height={coverImage.dimensions.height}
-							sizes="(max-width: 768px) 150px,
-								(max-width: 1920px) 300px,
-								600px"
+							sizes="(max-width: 768px) 300px,
+								(max-width: 1920px) 600px,
+								1200px"
 							layout="responsive"
 							src={coverImage.url}
 							alt={coverImage.alt}
 							quality={100}
-							unoptimized={true}
 						/>
 					)}
 				</div>
@@ -252,8 +252,10 @@ export default function ProjectThumb({ project, layoutInfo, onHover }) {
 				{layoutInfo.hoverfx && (
 					<div className={`${styles.info}`}>
 						<ul className={`${styles.categories} ${typography.smcp}`}>
-							{data.categories.map((cat) => (
-								<li key={cat.category.slug}>{cat.category.slug}</li>
+							{data.categories.map(({ category }) => (
+								<li key={category.slug}>
+									{getCategoryNameFromSlug(category.slug)}
+								</li>
 							))}
 						</ul>
 						<div className={`${styles.title} ${typography.headingOne}`}>
