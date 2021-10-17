@@ -33,7 +33,7 @@ export default function Project({
 			<Layout altLangs={doc.alternate_languages} footer={footer}>
 				<article className={styles.container}>
 					<Meta
-						pageTitle={project.titulo}
+						pageTitle={RichText.asText(project.displaytitle) || project.titulo}
 						pageDesc={RichText.asText(project.sobre)}
 						pageType="article"
 						pageImage={
