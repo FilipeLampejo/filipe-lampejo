@@ -27,8 +27,11 @@ export default function Home({ doc, footer }) {
 		return (
 			<Layout altLangs={doc.alternate_languages} footer={footer}>
 				<Meta
-					pageTitle={t("common:portfolio")}
-					pageDesc={RichText.asText(doc.data.bio)}
+					pageTitle={doc.data.seo_title || t("common:portfolio")}
+					pageDesc={
+						doc.data.seo_metadescription || RichText.asText(doc.data.bio)
+					}
+					pageImage={doc.data.seo_image?.url}
 				/>
 				<Hero
 					title={doc.data.titulo}
