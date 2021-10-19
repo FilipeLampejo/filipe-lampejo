@@ -14,6 +14,7 @@ import { useState } from "react";
 import { RichText } from "prismic-reactjs";
 
 import { useHomeIndex } from "../utils/hooks/useHomeIndex";
+import { indexFetcher } from "../utils/fetcher";
 
 export default function Home({ doc, footer }) {
 	const { data } = useHomeIndex();
@@ -74,10 +75,7 @@ export async function getStaticProps({
 	const isPreview = preview || false;
 
 	const client = Client();
-	const doc =
-		(await client.getSingle("home", {
-			lang: localeToPrismic(locale),
-		})) || {};
+	const doc = await indexFetcher(locale)
 
 	const footer =
 		(await client.getSingle("contato", { lang: localeToPrismic(locale) })) ||
