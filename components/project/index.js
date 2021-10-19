@@ -10,19 +10,33 @@ import { useSpring, animated as a } from "react-spring";
 import Placeholder from "../placeholder";
 
 import Year from "../date";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import useTranslation from "next-translate/useTranslation";
-import { getCategoryNameFromSlug } from "../../utils/category";
 
 const columns = {
 	year: (project) => project.date,
 	category: (project) =>
 		project.categories
-			.map(({ category }) => getCategoryNameFromSlug(category.slug))
+			.map(({ category }) => category.data.title && RichText.asText(category.data.title))
 			.join(", "),
 	project: (project) => RichText.asText(project.displaytitle),
 	client: (project) => project.client,
 	agency: (project) => project.agency,
+};
+
+const displayColumns = {
+	year: (text) => (text ? <Year dateString={text} /> : false),
+	category: (categories) =>
+		categories ? (
+			<span className={`${styles.categories} ${typography.smcp}`}>
+				{categories}
+			</span>
+		) : (
+			false
+		),
+	project: (text) => text || false,
+	client: (text) => text || false,
+	agency: (text) => text || false,
 };
 
 function ProjectListItem({ project, open, onClick }) {
@@ -41,21 +55,6 @@ function ProjectListItem({ project, open, onClick }) {
 		}
 	}, [open, height]);
 
-	const displayColumns = {
-		year: (text) => (text ? <Year dateString={text} /> : false),
-		category: (categories) =>
-			categories ? (
-				<span className={`${styles.categories} ${typography.smcp}`}>
-					{categories}
-				</span>
-			) : (
-				false
-			),
-		project: (text) => text || false,
-		client: (text) => text || false,
-		agency: (text) => text || false,
-	};
-
 	return (
 		<li
 			className={`${grid.col} ${styles.listItem} ${styles.listProject} ${
@@ -63,13 +62,13 @@ function ProjectListItem({ project, open, onClick }) {
 			}`}
 		>
 			<header
-				onClick={() => onClick(project.slug)}
+				onClick={() => onClick(project.uid)}
 				className={`${styles.columns} ${grid.inner}`}
 			>
 				{Object.entries(columns).map(([key, value]) => (
 					<div className={styles.column} data-col={key} key={key}>
 						<dt className="visually-hidden">{t(`project:${key}`)}</dt>
-						<dd>{displayColumns[key](value(project)) || "–"}</dd>
+						<dd>{displayColumns[key](value(project.data)) || "–"}</dd>
 					</div>
 				))}
 				<div className={styles.column} data-col="more" key="more">
@@ -82,32 +81,30 @@ function ProjectListItem({ project, open, onClick }) {
 				style={springProps}
 			>
 				<div className={styles.image}>
-					{project.capa.url && (
-						<Link href={`/projetos/${project.slug}`}>
+					{project.data.capa.url && (
+						<Link href={`/projetos/${project.uid}`} passHref>
 							<a>
-								{project.capa.url && (
 									<Placeholder
 										width={1200}
 										height={
 											1200 /
-											(project.capa.dimensions.width /
-												project.capa.dimensions.height)
+											(project.data.capa.dimensions.width /
+												project.data.capa.dimensions.height)
 										}
 										layout="responsive"
 										sizes="(max-width: 768px) 300px,
 	            							600px"
-										src={project.capa.url}
+										src={project.data.capa.url}
 									/>
-								)}
 							</a>
 						</Link>
 					)}
 				</div>
 				<div className={styles.info}>
 					<div className={typography.body}>
-						{project.sobre && <RichText render={project.sobre} />}
+						{project.data.sobre && <RichText render={project.data.sobre} />}
 					</div>
-					<Link href={`/projetos/${project.slug}`}>
+					<Link href={`/projetos/${project.uid}`}>
 						<a className={`${styles.view} ${typography.smcp}`}>
 							{t("project:view")}
 						</a>
@@ -118,52 +115,39 @@ function ProjectListItem({ project, open, onClick }) {
 	);
 }
 
+const getSortedTable = (projects, { orderAsc, orderBy }) => {
+	if (!Array.isArray(projects)) return [];
+	return	projects.sort((pa, pb) => {
+			const a = columns[orderBy](pa.data);
+			const b = columns[orderBy](pb.data);
+			const multiplier = orderAsc ? 1 : -1;
+			if (a === b) return 0;
+			else if (a === null) return 1;
+			else if (b === null) return -1;
+			else return a.localeCompare(b) * multiplier;
+		})
+}
+
 export function ProjectList({ projects }) {
 	let { t } = useTranslation();
 	const [orderBy, setOrderBy] = useState("year");
 	const [orderAsc, setOrderAsc] = useState(false);
 	const [open, setOpen] = useState();
-	const [sortedProjects, setSortedProjects] = useState(
-		getSortedTable(projects, { orderAsc, orderBy })
-	);
-	useEffect(
-		() => setSortedProjects(getSortedTable(projects, { orderAsc, orderBy })),
-		[projects]
-	);
+
+	const sortedProjects = useMemo(() => getSortedTable(projects, { orderAsc, orderBy }), [projects, orderAsc, orderBy]);
 
 	const toggleOpen = (slug) => {
 		open === slug ? setOpen(null) : setOpen(slug);
 	};
 
 	const reorderTable = (col) => {
-		if (col == orderBy) {
+		setOrderBy(col);
+		if (col === orderBy) {
 			setOrderAsc(!orderAsc);
-			setSortedProjects(
-				getSortedTable(sortedProjects, { orderAsc: !orderAsc, orderBy: col })
-			);
 		} else {
 			setOrderAsc(true);
-			setOrderBy(col);
-			setSortedProjects(
-				getSortedTable(sortedProjects, { orderAsc: true, orderBy: col })
-			);
 		}
 	};
-
-	function getSortedTable(input, { orderAsc, orderBy }) {
-		return (
-			input &&
-			input.sort((pa, pb) => {
-				const a = columns[orderBy](pa);
-				const b = columns[orderBy](pb);
-				const multiplier = orderAsc ? 1 : -1;
-				if (a === b) return 0;
-				else if (a === null) return 1;
-				else if (b === null) return -1;
-				else return a.localeCompare(b) * multiplier;
-			})
-		);
-	}
 
 	return (
 		<ul className={`${styles.list}`}>
@@ -181,7 +165,7 @@ export function ProjectList({ projects }) {
 							className={`${typography.smcp} ${styles.column}`}
 						>
 							{t(`project:${col}`)}{" "}
-							{orderBy == col ? (orderAsc ? "↓" : "↑") : ""}
+							{orderBy === col ? (orderAsc ? "↓" : "↑") : ""}
 						</li>
 					))}
 					<li
@@ -193,11 +177,11 @@ export function ProjectList({ projects }) {
 				</ul>
 			</li>
 			{sortedProjects &&
-				sortedProjects.map((project) => (
+				sortedProjects?.map((project) => (
 					<ProjectListItem
-						key={project.slug}
+						key={project.uid}
 						project={project}
-						open={open === project.slug}
+						open={open === project.uid}
 						onClick={toggleOpen}
 					/>
 				))}
@@ -253,8 +237,8 @@ export default function ProjectThumb({ project, layoutInfo, onHover }) {
 					<div className={`${styles.info}`}>
 						<ul className={`${styles.categories} ${typography.smcp}`}>
 							{data.categories.map(({ category }) => (
-								<li key={category.slug}>
-									{getCategoryNameFromSlug(category.slug)}
+								<li key={category.uid}>
+									{RichText.asText(category.data.title)}
 								</li>
 							))}
 						</ul>

@@ -23,6 +23,7 @@ export async function indexFetcher(locale) {
 				"project.capa",
 				"project.displaytitle",
 				"project.categories",
+				"category.title"
 			],
 		})) || {}
 	);
