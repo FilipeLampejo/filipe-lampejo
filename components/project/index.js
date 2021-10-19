@@ -222,13 +222,10 @@ export default function ProjectThumb({ project, layoutInfo, onHover }) {
 						<Placeholder
 							width={coverImage.dimensions.width}
 							height={coverImage.dimensions.height}
-							sizes="(max-width: 768px) 300px,
-								(max-width: 1920px) 600px,
-								1200px"
 							layout="responsive"
 							src={coverImage.url}
 							alt={coverImage.alt}
-							quality={100}
+							unoptimized
 						/>
 					)}
 				</div>

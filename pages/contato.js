@@ -1,7 +1,7 @@
 import useTranslation from "next-translate/useTranslation";
 
 import Meta from "../components/meta";
-import { Client, manageLocal } from "../utils/prismicHelpers";
+import { Client } from "../utils/prismicHelpers";
 
 import { RichText } from "prismic-reactjs";
 
