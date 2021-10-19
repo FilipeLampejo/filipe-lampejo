@@ -10,7 +10,7 @@ import { useSpring, animated as a } from "react-spring";
 import Placeholder from "../placeholder";
 
 import Year from "../date";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useLayoutEffect } from "react";
 import useTranslation from "next-translate/useTranslation";
 
 const columns = {
@@ -45,7 +45,7 @@ function ProjectListItem({ project, open, onClick }) {
 	const [height, setHeight] = useState(0);
 	const springProps = useSpring({ height: height });
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		if (details.current) {
 			const initialPos = details.current.getBoundingClientRect().height;
 			details.current.style.height = open ? "auto" : 0;
