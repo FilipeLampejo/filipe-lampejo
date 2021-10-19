@@ -22,3 +22,12 @@
 	font-style: normal;
 	font-display: swap;
 }
+
+.smcp {
+	letter-spacing: 0.04em;
+	text-transform: lowercase;
+	font-variant-caps: small-caps;
+	-moz-font-feature-settings: "smcp";
+	-webkit-font-feature-settings: "smcp";
+	font-feature-settings: "smcp";
+}
