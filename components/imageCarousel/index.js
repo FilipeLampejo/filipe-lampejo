@@ -19,9 +19,9 @@ export default function ImageCarousel({ images }) {
 
 	return (
 		<figure className={`${styles.container} ${grid.col}`}>
-			{gallery.map((i, index) => (
+			{gallery.map((i) => (
 				<div
-					key={`slide-${index}`}
+					key={i.imagem.url.replace("?auto=compress,format", "?")}
 					className={styles.image}
 					onClick={() => handleClick(images.indexOf(i))}
 				>

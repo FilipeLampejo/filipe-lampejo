@@ -9,7 +9,7 @@ export default function Placeholder(props) {
 			<Image
 				className={`${styles.image} ${loaded ? styles.loaded : ""}`}
 				{...props}
-				onLoad={() => setLoaded(true)}
+				onLoadingComplete={() => setLoaded(true)}
 			/>
 		</div>
 	);
