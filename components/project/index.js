@@ -17,7 +17,7 @@ const columns = {
 	year: (project) => project.date,
 	category: (project) =>
 		project.categories
-			.map(({ category }) => category.data.title && RichText.asText(category.data.title))
+			.map(({ category }) => category.data?.title && RichText.asText(category.data.title))
 			.join(", "),
 	project: (project) => RichText.asText(project.displaytitle),
 	client: (project) => project.client,
