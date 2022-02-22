@@ -28,7 +28,7 @@ export default function Meta({ pageTitle, pageDesc, pageType, pageImage }) {
 			<link rel="manifest" href="/manifest.json" />
 			<meta name="msapplication-config" content="/browserconfig.xml" />
 
-			<meta name="copyright" content="Filipe Lampejo" />
+			<meta name="copyright" content="Filipe-Lampejo" />
 			<meta name="designer" content="Penumbra design et web" />
 
 			<meta name="robots" content="index,follow" />
@@ -91,15 +91,6 @@ export default function Meta({ pageTitle, pageDesc, pageType, pageImage }) {
 			<link rel="icon" href="/favicon.svg" />
 			<link rel="mask-icon" href="/favicon.svg" color="#000000" />
 				
-			{/* GOOGLE ANALYTICS */}	
-			<script async src="https://www.googletagmanager.com/gtag/js?id=G-TB2GCYR7WW"></script>
-			<script>
-			  window.dataLayer = window.dataLayer || [];
-			  function gtag(){dataLayer.push(arguments);}
-			  gtag('js', new Date());
-
-			  gtag('config', 'G-TB2GCYR7WW');
-			</script>
 		</Head>
 	);
 }
