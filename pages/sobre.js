@@ -50,7 +50,7 @@ export default function Sobre({ doc, footer }) {
 					<section className={styles.contact}>
 						<h2 className="visually-hidden">{t("common:menu.contact")}</h2>
 						<ul>
-							{doc.data.contatos.map((p, index) => (
+							{footer.data.contatos.map((p, index) => (
 								<li key={`contato-${index}`}>
 									<h3 className={typography.smcp}>{p.tipo}</h3>
 									<RichText render={p.conteudo} />
