@@ -2,13 +2,6 @@ import Head from "next/head";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
 
-import ReactGA from 'react-ga';
-
-import ReactGA from "react-ga4";
-
-ReactGA.initialize("G-TB2GCYR7WW");
-ReactGA.send("pageview");
-
 export default function Meta({ pageTitle, pageDesc, pageType, pageImage }) {
 	let { t } = useTranslation();
 	const { asPath } = useRouter();

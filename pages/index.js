@@ -16,6 +16,12 @@ import { RichText } from "prismic-reactjs";
 import { useHomeIndex } from "../utils/hooks/useHomeIndex";
 import { indexFetcher } from "../utils/fetcher";
 
+import ReactGA from 'react-ga';
+
+const TRACKING_ID = "UA-221231072-1"; 
+
+ReactGA.initialize(TRACKING_ID);
+
 export default function Home({ doc, footer }) {
 	const { data } = useHomeIndex();
 	const projects = data
