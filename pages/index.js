@@ -19,6 +19,8 @@ import { indexFetcher } from "../utils/fetcher";
 import ReactGA from 'react-ga';
 ReactGA.initialize('G-TB2GCYR7WW');
 
+ReactGA.pageview(window.location.pathname + window.location.search);
+
 export default function Home({ doc, footer }) {
 	const { data } = useHomeIndex();
 	const projects = data
