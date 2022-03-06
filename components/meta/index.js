@@ -18,7 +18,7 @@ export default function Meta({ pageTitle, pageDesc, pageType, pageImage }) {
 			: t("common:title"),
 		desc: pageDesc ? pageDesc : t("common:desc"),
 	};
-	initializeAnalytics();
+	initializeAnalytics()
 	return (
 		<Head>
 			<title>{tabInfo.title}</title>
