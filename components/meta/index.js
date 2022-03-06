@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import ReactGA from 'react-ga';
 
 function initializeAnalytics() {
-	ReactGA.initialize('G-TB2GCYR7WW');
+	ReactGA.initialize('UA-221231072-1');
 	ReactGA.pageview(window.location.pathname + window.location.search);
 }
 
