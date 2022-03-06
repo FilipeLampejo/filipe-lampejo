@@ -2,6 +2,13 @@ import Head from "next/head";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
 
+import ReactGA from 'react-ga';
+
+function initializeAnalytics() {
+	ReactGA.initialize('G-TB2GCYR7WW');
+	ReactGA.pageview(window.location.pathname + window.location.search);
+}
+
 export default function Meta({ pageTitle, pageDesc, pageType, pageImage }) {
 	let { t } = useTranslation();
 	const { asPath } = useRouter();
@@ -11,6 +18,7 @@ export default function Meta({ pageTitle, pageDesc, pageType, pageImage }) {
 			: t("common:title"),
 		desc: pageDesc ? pageDesc : t("common:desc"),
 	};
+	initializeAnalytics();
 	return (
 		<Head>
 			<title>{tabInfo.title}</title>
