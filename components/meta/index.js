@@ -94,12 +94,12 @@ export default function Meta({ pageTitle, pageDesc, pageType, pageImage }) {
 			<script async src="https://www.googletagmanager.com/gtag/js?id=G-TB2GCYR7WW"></script>
 			<script>
 			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments);}
+			function gtag(){dataLayer.push(arguments)}
 			gtag('js', new Date());
 
 			gtag('config', 'G-TB2GCYR7WW');
 			</script>
-			
+
 		</Head>
 	);
 }
