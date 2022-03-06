@@ -90,7 +90,7 @@ export default function Meta({ pageTitle, pageDesc, pageType, pageImage }) {
 
 			<link rel="icon" href="/favicon.svg" />
 			<link rel="mask-icon" href="/favicon.svg" color="#000000" />
-			
+
 		</Head>
 	);
 }

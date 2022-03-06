@@ -16,6 +16,9 @@ import { RichText } from "prismic-reactjs";
 import { useHomeIndex } from "../utils/hooks/useHomeIndex";
 import { indexFetcher } from "../utils/fetcher";
 
+import ReactGA from 'react-ga';
+ReactGA.initialize('G-TB2GCYR7WW');
+
 export default function Home({ doc, footer }) {
 	const { data } = useHomeIndex();
 	const projects = data
